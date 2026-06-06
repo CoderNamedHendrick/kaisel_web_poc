@@ -12,6 +12,13 @@ class PocAppCodec implements KaiselConfigCodec<PocAppRoute> {
         mainStack: const [NavigationShellRoute()],
         nestedState: KaiselShellConfig(activeBranch: 0, activeBranchStack: const [HomeRoot()]),
       ),
+      ['home', 'user', final userId] => KaiselConfig(
+        mainStack: const [NavigationShellRoute()],
+        nestedState: KaiselShellConfig(
+          activeBranch: 0,
+          activeBranchStack: [const HomeRoot(), HomeUserProfile(userId: userId)],
+        ),
+      ),
       ['favorites'] => KaiselConfig(
         mainStack: const [NavigationShellRoute()],
         nestedState: KaiselShellConfig(activeBranch: 1, activeBranchStack: const [FavoritesRoot()]),
@@ -23,6 +30,20 @@ class PocAppCodec implements KaiselConfigCodec<PocAppRoute> {
       ['messages'] => KaiselConfig(
         mainStack: const [NavigationShellRoute()],
         nestedState: KaiselShellConfig(activeBranch: 3, activeBranchStack: const [MessagesRoot()]),
+      ),
+      ['messages', 'chat', final chatId] => KaiselConfig(
+        mainStack: const [NavigationShellRoute()],
+        nestedState: KaiselShellConfig(
+          activeBranch: 3,
+          activeBranchStack: [const MessagesRoot(), ChatDetail(chatId)],
+        ),
+      ),
+      ['messages', 'user', final userId] => KaiselConfig(
+        mainStack: const [NavigationShellRoute()],
+        nestedState: KaiselShellConfig(
+          activeBranch: 3,
+          activeBranchStack: [const MessagesRoot(), ChatUserProfile(userId: userId)],
+        ),
       ),
       ['bookings'] => KaiselConfig(
         mainStack: const [NavigationShellRoute()],
@@ -44,13 +65,25 @@ class PocAppCodec implements KaiselConfigCodec<PocAppRoute> {
     };
   }
 
-  Uri _encodeShell(KaiselShellConfig shell) => switch (shell.activeBranch) {
-    0 => Uri(path: '/home'),
-    1 => Uri(path: '/favorites'),
-    2 => Uri(path: '/tests'),
-    3 => Uri(path: '/messages'),
-    4 => Uri(path: '/bookings'),
-    5 => Uri(path: '/profile'),
-    int() => throw UnimplementedError('Failed to implement encode shell for ${shell.activeBranch}'),
-  };
+  Uri _encodeShell(KaiselShellConfig shell) {
+    // The active branch's stack only ever goes one detail deep, so the top
+    // route fully determines the URL.
+    final top = shell.activeBranchStack.last;
+    return switch (shell.activeBranch) {
+      0 => switch (top) {
+        HomeUserProfile(:final userId) => Uri(path: '/home/user/$userId'),
+        _ => Uri(path: '/home'),
+      },
+      1 => Uri(path: '/favorites'),
+      2 => Uri(path: '/tests'),
+      3 => switch (top) {
+        ChatDetail(:final chatId) => Uri(path: '/messages/chat/$chatId'),
+        ChatUserProfile(:final userId) => Uri(path: '/messages/user/$userId'),
+        _ => Uri(path: '/messages'),
+      },
+      4 => Uri(path: '/bookings'),
+      5 => Uri(path: '/profile'),
+      int() => throw UnimplementedError('Failed to implement encode shell for ${shell.activeBranch}'),
+    };
+  }
 }

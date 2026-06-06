@@ -8,7 +8,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    const me = MockData.me;
+    final me = MockData.me;
 
     return Scaffold(
       body: CustomScrollView(
@@ -25,7 +25,7 @@ class ProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
               child: Column(
                 children: [
-                  const PlayerAvatar(player: me, radius: 44),
+                  PlayerAvatar(player: me, radius: 44),
                   const SizedBox(height: 12),
                   Text(me.name,
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
@@ -135,7 +135,7 @@ class _Achievements extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const items = MockData.achievements;
+    final items = MockData.achievements;
     return SizedBox(
       height: 104,
       child: ListView.separated(

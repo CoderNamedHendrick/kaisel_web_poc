@@ -1,0 +1,40 @@
+[
+  {
+    "title": "NTRP Rating Assessment",
+    "description": "A certified rally + match-play evaluation to set your official skill rating.",
+    "level": "All levels",
+    "durationMin": 60,
+    "status": "scheduled",
+    "scheduledWithId": "c1"
+  },
+  {
+    "title": "Serve Consistency Test",
+    "description": "Land 20 first serves in the box. Tracks speed, placement and fault rate.",
+    "level": "Intermediate",
+    "durationMin": 20,
+    "status": "passed",
+    "score": 84
+  },
+  {
+    "title": "Baseline Rally Drill",
+    "description": "Maintain a cross-court rally for 30+ shots without an unforced error.",
+    "level": "Intermediate",
+    "durationMin": 25,
+    "status": "passed",
+    "score": 76
+  },
+  {
+    "title": "Volley & Net Play",
+    "description": "Reaction volleys and approach-shot footwork assessment.",
+    "level": "Advanced",
+    "durationMin": 30,
+    "status": "available"
+  },
+  {
+    "title": "Match IQ Quiz",
+    "description": "Situational tactics, scoring rules and shot-selection scenarios.",
+    "level": "All levels",
+    "durationMin": 15,
+    "status": "available"
+  }
+]

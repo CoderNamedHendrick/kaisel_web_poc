@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -58,7 +60,7 @@ class _Greeting extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 4),
       child: Row(
         children: [
-          const PlayerAvatar(player: MockData.me, radius: 26),
+          PlayerAvatar(player: MockData.me, radius: 26),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -241,7 +243,7 @@ class _SessionCard extends StatelessWidget {
 class _CourtsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const courts = MockData.courts;
+    final courts = MockData.courts;
     return SizedBox(
       height: 200,
       child: ListView.separated(
@@ -333,7 +335,7 @@ class _CourtCard extends StatelessWidget {
 class _PlayersSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const players = MockData.players;
+    final players = MockData.players;
     return SliverList.builder(
       itemCount: players.length,
       itemBuilder: (context, i) => _PlayerTile(players[i]),
@@ -349,6 +351,8 @@ class _PlayerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return ListTile(
+      // Pass the resolved model straight through — no id lookup needed.
+      onTap: () => context.push(HomeUserProfile(userId: player.id, player: player)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
       leading: PlayerAvatar(player: player),
       title: Text(player.name, style: const TextStyle(fontWeight: FontWeight.w600)),

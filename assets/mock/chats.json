@@ -1,0 +1,80 @@
+[
+  {
+    "id": "chat_1",
+    "playerId": "p1",
+    "lastMessage": "See you at McCarren at 6:30, bring the new balls!",
+    "time": "2m",
+    "unread": 2,
+    "sentByMe": false,
+    "messages": [
+      { "text": "Hey! Still on for doubles tonight?", "fromMe": true, "time": "5:48 PM" },
+      { "text": "Absolutely, looking forward to it 🎾", "fromMe": false, "time": "5:50 PM" },
+      { "text": "Court 3 at McCarren is booked from 6:30.", "fromMe": true, "time": "5:51 PM" },
+      { "text": "Perfect. Who's the 4th?", "fromMe": false, "time": "5:52 PM" },
+      { "text": "Jamal is in. We're set.", "fromMe": true, "time": "5:53 PM" },
+      { "text": "See you at McCarren at 6:30, bring the new balls!", "fromMe": false, "time": "5:55 PM" }
+    ]
+  },
+  {
+    "id": "chat_2",
+    "playerId": "c1",
+    "lastMessage": "Great progress on your serve today 🎾",
+    "time": "1h",
+    "unread": 1,
+    "sentByMe": false,
+    "messages": [
+      { "text": "Thanks for the lesson this morning!", "fromMe": true, "time": "11:20 AM" },
+      { "text": "My pleasure. Keep that toss consistent.", "fromMe": false, "time": "11:25 AM" },
+      { "text": "Will do. Same time next week?", "fromMe": true, "time": "11:26 AM" },
+      { "text": "Great progress on your serve today 🎾", "fromMe": false, "time": "11:30 AM" }
+    ]
+  },
+  {
+    "id": "chat_3",
+    "playerId": "p4",
+    "lastMessage": "You: Rematch Sunday morning?",
+    "time": "3h",
+    "unread": 0,
+    "sentByMe": true,
+    "messages": [
+      { "text": "Brutal match yesterday, you got me in the third.", "fromMe": false, "time": "9:10 AM" },
+      { "text": "Came down to a couple of points!", "fromMe": true, "time": "9:12 AM" },
+      { "text": "Rematch Sunday morning?", "fromMe": true, "time": "9:13 AM" }
+    ]
+  },
+  {
+    "id": "chat_4",
+    "playerId": "p3",
+    "lastMessage": "That was a brutal tiebreak 😅 gg",
+    "time": "Yesterday",
+    "unread": 0,
+    "sentByMe": false,
+    "messages": [
+      { "text": "10-8 in the breaker, what a finish.", "fromMe": true, "time": "Yesterday" },
+      { "text": "That was a brutal tiebreak 😅 gg", "fromMe": false, "time": "Yesterday" }
+    ]
+  },
+  {
+    "id": "chat_5",
+    "playerId": "p6",
+    "lastMessage": "You: I can cover the court fee this time",
+    "time": "Mon",
+    "unread": 0,
+    "sentByMe": true,
+    "messages": [
+      { "text": "Want to grab a court at Fort Greene this weekend?", "fromMe": false, "time": "Mon" },
+      { "text": "I'm in. I can cover the court fee this time", "fromMe": true, "time": "Mon" }
+    ]
+  },
+  {
+    "id": "chat_6",
+    "playerId": "p2",
+    "lastMessage": "Are you in the 4.0 ladder this season?",
+    "time": "Sun",
+    "unread": 0,
+    "sentByMe": false,
+    "messages": [
+      { "text": "Are you in the 4.0 ladder this season?", "fromMe": false, "time": "Sun" }
+    ]
+  }
+]

@@ -1,12 +1,34 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 /// ---------------------------------------------------------------------------
 /// Mock data layer for the RallyUp P2P tennis / racket-sports community POC.
 ///
-/// Everything here is fake, deterministic and offline-safe (no network images)
-/// so the screens render identically every run. Avatars are rendered from
-/// initials + a seeded colour; "photos" are gradient blocks.
+/// The seed data lives in JSON files under `assets/mock/` and is parsed once at
+/// startup via [MockData.load]. Everything stays fake, deterministic and
+/// offline-safe (no network images) so the screens render identically every
+/// run. Avatars are rendered from initials + a seeded colour; "photos" are
+/// gradient blocks.
+///
+/// Colours are stored as 8-digit ARGB hex strings (e.g. `"FF2E7D32"`) and
+/// icons as short keys mapped to const [IconData] in [_achievementIcons] —
+/// JSON can't carry Dart `Color`/`IconData` directly, and keeping the icons
+/// const preserves Flutter's icon tree-shaking.
 /// ---------------------------------------------------------------------------
+
+/// Parse an 8-digit ARGB hex string (no `0x`/`#` prefix) into a [Color].
+Color _hexColor(String hex) => Color(int.parse(hex, radix: 16));
+
+/// Maps achievement icon keys (as stored in JSON) to const [IconData].
+const Map<String, IconData> _achievementIcons = {
+  'trophy': Icons.emoji_events,
+  'bolt': Icons.bolt,
+  'terrain': Icons.terrain,
+  'fire': Icons.local_fire_department,
+  'sun': Icons.wb_sunny,
+};
 
 enum CourtSurface { hard, clay, grass, indoor }
 
@@ -65,6 +87,7 @@ enum TestStatus { available, scheduled, passed }
 /// A person on the platform — a hitting partner, opponent or coach.
 class Player {
   const Player({
+    required this.id,
     required this.name,
     required this.ntrp,
     required this.location,
@@ -75,6 +98,19 @@ class Player {
     this.bio,
   });
 
+  factory Player.fromJson(Map<String, dynamic> json) => Player(
+        id: json['id'] as String,
+        name: json['name'] as String,
+        ntrp: (json['ntrp'] as num).toDouble(),
+        location: json['location'] as String,
+        color: _hexColor(json['color'] as String),
+        isCoach: json['isCoach'] as bool? ?? false,
+        isOnline: json['isOnline'] as bool? ?? false,
+        winRate: json['winRate'] as int?,
+        bio: json['bio'] as String?,
+      );
+
+  final String id;
   final String name;
   final double ntrp; // NTRP skill rating, 1.0 – 7.0
   final String location;
@@ -104,6 +140,18 @@ class Court {
     this.lit = false,
   });
 
+  factory Court.fromJson(Map<String, dynamic> json) => Court(
+        name: json['name'] as String,
+        surface: CourtSurface.values.byName(json['surface'] as String),
+        location: json['location'] as String,
+        pricePerHour: json['pricePerHour'] as int,
+        rating: (json['rating'] as num).toDouble(),
+        distanceKm: (json['distanceKm'] as num).toDouble(),
+        gradient: [for (final c in json['gradient'] as List) _hexColor(c as String)],
+        courts: json['courts'] as int? ?? 1,
+        lit: json['lit'] as bool? ?? false,
+      );
+
   final String name;
   final CourtSurface surface;
   final String location;
@@ -125,6 +173,15 @@ class OpenSession {
     required this.skillRange,
   });
 
+  factory OpenSession.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => OpenSession(
+        kind: SessionKind.values.byName(json['kind'] as String),
+        host: resolve(json['hostId'] as String),
+        court: json['court'] as String,
+        when: json['when'] as String,
+        spotsLeft: json['spotsLeft'] as int,
+        skillRange: json['skillRange'] as String,
+      );
+
   final SessionKind kind;
   final Player host;
   final String court;
@@ -145,6 +202,17 @@ class Booking {
     required this.price,
   });
 
+  factory Booking.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => Booking(
+        kind: SessionKind.values.byName(json['kind'] as String),
+        court: json['court'] as String,
+        location: json['location'] as String,
+        dateLabel: json['dateLabel'] as String,
+        timeLabel: json['timeLabel'] as String,
+        status: BookingStatus.values.byName(json['status'] as String),
+        withPlayer: resolve(json['withPlayerId'] as String),
+        price: json['price'] as int,
+      );
+
   final SessionKind kind;
   final String court;
   final String location;
@@ -155,20 +223,52 @@ class Booking {
   final int price;
 }
 
+/// A single message within a [Chat] conversation.
+class Message {
+  const Message({required this.text, required this.fromMe, required this.time});
+
+  factory Message.fromJson(Map<String, dynamic> json) => Message(
+        text: json['text'] as String,
+        fromMe: json['fromMe'] as bool,
+        time: json['time'] as String,
+      );
+
+  final String text;
+  final bool fromMe;
+  final String time;
+}
+
 class Chat {
   const Chat({
+    required this.id,
     required this.player,
     required this.lastMessage,
     required this.time,
     this.unread = 0,
     this.sentByMe = false,
+    this.messages = const [],
   });
 
+  factory Chat.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => Chat(
+        id: json['id'] as String,
+        player: resolve(json['playerId'] as String),
+        lastMessage: json['lastMessage'] as String,
+        time: json['time'] as String,
+        unread: json['unread'] as int? ?? 0,
+        sentByMe: json['sentByMe'] as bool? ?? false,
+        messages: [
+          for (final m in (json['messages'] as List? ?? const []))
+            Message.fromJson(m as Map<String, dynamic>),
+        ],
+      );
+
+  final String id;
   final Player player;
   final String lastMessage;
   final String time;
   final int unread;
   final bool sentByMe;
+  final List<Message> messages;
 }
 
 class SkillTest {
@@ -182,6 +282,19 @@ class SkillTest {
     this.scheduledWith,
   });
 
+  factory SkillTest.fromJson(Map<String, dynamic> json, PlayerResolver resolve) {
+    final scheduledWithId = json['scheduledWithId'] as String?;
+    return SkillTest(
+      title: json['title'] as String,
+      description: json['description'] as String,
+      level: json['level'] as String,
+      durationMin: json['durationMin'] as int,
+      status: TestStatus.values.byName(json['status'] as String),
+      score: json['score'] as int?,
+      scheduledWith: scheduledWithId == null ? null : resolve(scheduledWithId),
+    );
+  }
+
   final String title;
   final String description;
   final String level;
@@ -193,330 +306,103 @@ class SkillTest {
 
 class Achievement {
   const Achievement(this.label, this.icon, this.color);
+
+  factory Achievement.fromJson(Map<String, dynamic> json) => Achievement(
+        json['label'] as String,
+        _achievementIcons[json['icon'] as String] ?? Icons.emoji_events,
+        _hexColor(json['color'] as String),
+      );
+
   final String label;
   final IconData icon;
   final Color color;
 }
 
+/// Resolves a player id to the corresponding [Player]. Used while parsing
+/// records that reference people (sessions, bookings, chats, tests) by id.
+typedef PlayerResolver = Player Function(String id);
+
 /// ---------------------------------------------------------------------------
-/// Seed data
+/// Data access
+///
+/// Call [MockData.load] once during app startup (before `runApp`). After that
+/// the static accessors below are populated and read synchronously by screens.
 /// ---------------------------------------------------------------------------
 
 class MockData {
   MockData._();
 
-  static const me = Player(
-    name: 'Alex Rivera',
-    ntrp: 4.0,
-    location: 'Brooklyn, NY',
-    color: Color(0xFF2E7D32),
-    isOnline: true,
-    winRate: 62,
-    bio: 'Weekend warrior chasing a 4.5 rating. Aggressive baseliner, loves a long rally.',
-  );
+  static const _dir = 'assets/mock';
 
-  static const players = <Player>[
-    Player(
-      name: 'Maya Chen',
-      ntrp: 4.5,
-      location: 'Williamsburg · 1.2 km',
-      color: Color(0xFF6A1B9A),
-      isOnline: true,
-      winRate: 71,
-      bio: 'Lefty with a wicked slice.',
-    ),
-    Player(
-      name: 'Diego Santos',
-      ntrp: 3.5,
-      location: 'Bushwick · 2.8 km',
-      color: Color(0xFF1565C0),
-      winRate: 54,
-      bio: 'Just getting back into the game.',
-    ),
-    Player(
-      name: 'Priya Nair',
-      ntrp: 4.0,
-      location: 'DUMBO · 0.9 km',
-      color: Color(0xFFAD1457),
-      isOnline: true,
-      winRate: 65,
-    ),
-    Player(
-      name: 'Tom Becker',
-      ntrp: 5.0,
-      location: 'Park Slope · 3.4 km',
-      color: Color(0xFFE65100),
-      winRate: 78,
-      bio: 'Former college player. Hit hard or go home.',
-    ),
-    Player(
-      name: 'Sofia Rossi',
-      ntrp: 3.0,
-      location: 'Greenpoint · 1.7 km',
-      color: Color(0xFF00838F),
-      isOnline: true,
-      winRate: 48,
-    ),
-    Player(
-      name: 'Jamal Wright',
-      ntrp: 4.5,
-      location: 'Fort Greene · 2.1 km',
-      color: Color(0xFF4527A0),
-      winRate: 69,
-    ),
-  ];
+  static bool _loaded = false;
 
-  static const coaches = <Player>[
-    Player(
-      name: 'Coach Lena Park',
-      ntrp: 6.5,
-      location: 'Prospect Park Tennis Center',
-      color: Color(0xFFC62828),
-      isCoach: true,
-      isOnline: true,
-      winRate: 91,
-      bio: 'USPTA certified. 12 years coaching juniors and adults.',
-    ),
-    Player(
-      name: 'Coach Marcus Hale',
-      ntrp: 6.0,
-      location: 'McCarren Courts',
-      color: Color(0xFF283593),
-      isCoach: true,
-      winRate: 88,
-      bio: 'Specialises in serve mechanics and footwork.',
-    ),
-  ];
+  static late final Player me;
+  static late final List<Player> players;
+  static late final List<Player> coaches;
+  static late final List<Court> courts;
+  static late final List<OpenSession> openSessions;
+  static late final List<Booking> bookings;
+  static late final List<Chat> chats;
+  static late final List<SkillTest> skillTests;
+  static late final List<Achievement> achievements;
 
-  static const courts = <Court>[
-    Court(
-      name: 'Prospect Park Tennis Center',
-      surface: CourtSurface.hard,
-      location: 'Prospect Park · 1.5 km',
-      pricePerHour: 32,
-      rating: 4.8,
-      distanceKm: 1.5,
-      courts: 11,
-      lit: true,
-      gradient: [Color(0xFF1B5E20), Color(0xFF66BB6A)],
-    ),
-    Court(
-      name: 'McCarren Park Courts',
-      surface: CourtSurface.hard,
-      location: 'Greenpoint · 1.7 km',
-      pricePerHour: 24,
-      rating: 4.5,
-      distanceKm: 1.7,
-      courts: 7,
-      lit: true,
-      gradient: [Color(0xFF0D47A1), Color(0xFF42A5F5)],
-    ),
-    Court(
-      name: 'Red Hook Clay Club',
-      surface: CourtSurface.clay,
-      location: 'Red Hook · 4.2 km',
-      pricePerHour: 45,
-      rating: 4.9,
-      distanceKm: 4.2,
-      courts: 4,
-      gradient: [Color(0xFFBF360C), Color(0xFFFF8A65)],
-    ),
-    Court(
-      name: 'Brooklyn Bridge Indoor',
-      surface: CourtSurface.indoor,
-      location: 'DUMBO · 0.8 km',
-      pricePerHour: 58,
-      rating: 4.7,
-      distanceKm: 0.8,
-      courts: 6,
-      lit: true,
-      gradient: [Color(0xFF4A148C), Color(0xFFBA68C8)],
-    ),
-    Court(
-      name: 'Fort Greene Grass Lawn',
-      surface: CourtSurface.grass,
-      location: 'Fort Greene · 2.0 km',
-      pricePerHour: 40,
-      rating: 4.6,
-      distanceKm: 2.0,
-      courts: 2,
-      gradient: [Color(0xFF004D40), Color(0xFF4DB6AC)],
-    ),
-  ];
+  /// Every known person indexed by id (me + players + coaches) for fast
+  /// lookups when a screen only has an id (e.g. a deep-linked profile).
+  static final Map<String, Player> _peopleById = {};
 
-  static List<OpenSession> get openSessions => [
-        OpenSession(
-          kind: SessionKind.doubles,
-          host: players[0],
-          court: 'McCarren Park Courts',
-          when: 'Today · 6:30 PM',
-          spotsLeft: 1,
-          skillRange: 'NTRP 4.0–4.5',
-        ),
-        OpenSession(
-          kind: SessionKind.match,
-          host: players[3],
-          court: 'Prospect Park Tennis Center',
-          when: 'Tomorrow · 7:00 AM',
-          spotsLeft: 1,
-          skillRange: 'NTRP 4.5+',
-        ),
-        OpenSession(
-          kind: SessionKind.match,
-          host: players[4],
-          court: 'Brooklyn Bridge Indoor',
-          when: 'Sat · 10:00 AM',
-          spotsLeft: 1,
-          skillRange: 'NTRP 3.0–3.5',
-        ),
-      ];
+  /// Parse all of the JSON seed data. Idempotent — safe to call more than once.
+  static Future<void> load() async {
+    if (_loaded) return;
 
-  static List<Booking> get bookings => [
-        Booking(
-          kind: SessionKind.match,
-          court: 'Prospect Park Tennis Center',
-          location: 'Court 6 · Hard',
-          dateLabel: 'Fri, Jun 6',
-          timeLabel: '6:30 – 8:00 PM',
-          status: BookingStatus.upcoming,
-          withPlayer: players[0],
-          price: 32,
-        ),
-        Booking(
-          kind: SessionKind.lesson,
-          court: 'Prospect Park Tennis Center',
-          location: 'Court 2 · with Coach Lena',
-          dateLabel: 'Sun, Jun 8',
-          timeLabel: '9:00 – 10:00 AM',
-          status: BookingStatus.upcoming,
-          withPlayer: coaches[0],
-          price: 75,
-        ),
-        Booking(
-          kind: SessionKind.doubles,
-          court: 'McCarren Park Courts',
-          location: 'Court 3 · Hard',
-          dateLabel: 'Wed, Jun 11',
-          timeLabel: '7:00 – 8:30 PM',
-          status: BookingStatus.upcoming,
-          withPlayer: players[5],
-          price: 24,
-        ),
-        Booking(
-          kind: SessionKind.match,
-          court: 'Red Hook Clay Club',
-          location: 'Court 1 · Clay',
-          dateLabel: 'Sun, Jun 1',
-          timeLabel: '8:00 – 9:30 AM',
-          status: BookingStatus.completed,
-          withPlayer: players[2],
-          price: 45,
-        ),
-        Booking(
-          kind: SessionKind.courtRental,
-          court: 'Brooklyn Bridge Indoor',
-          location: 'Court 4 · Indoor',
-          dateLabel: 'Thu, May 29',
-          timeLabel: '6:00 – 7:00 PM',
-          status: BookingStatus.completed,
-          withPlayer: players[1],
-          price: 58,
-        ),
-        Booking(
-          kind: SessionKind.match,
-          court: 'Fort Greene Grass Lawn',
-          location: 'Court 2 · Grass',
-          dateLabel: 'Sat, May 24',
-          timeLabel: '11:00 AM – 12:30 PM',
-          status: BookingStatus.cancelled,
-          withPlayer: players[3],
-          price: 40,
-        ),
-      ];
+    me = Player.fromJson(await _readObject('me'));
+    players = await _readList('players', Player.fromJson);
+    coaches = await _readList('coaches', Player.fromJson);
 
-  static List<Chat> get chats => [
-        Chat(
-          player: players[0],
-          lastMessage: 'See you at McCarren at 6:30, bring the new balls!',
-          time: '2m',
-          unread: 2,
-        ),
-        Chat(
-          player: coaches[0],
-          lastMessage: 'Great progress on your serve today 🎾',
-          time: '1h',
-          unread: 1,
-        ),
-        Chat(
-          player: players[3],
-          lastMessage: 'You: Rematch Sunday morning?',
-          time: '3h',
-          sentByMe: true,
-        ),
-        Chat(
-          player: players[2],
-          lastMessage: 'That was a brutal tiebreak 😅 gg',
-          time: 'Yesterday',
-        ),
-        Chat(
-          player: players[5],
-          lastMessage: 'You: I can cover the court fee this time',
-          time: 'Mon',
-          sentByMe: true,
-        ),
-        Chat(
-          player: players[1],
-          lastMessage: 'Are you in the 4.0 ladder this season?',
-          time: 'Sun',
-        ),
-      ];
+    for (final p in [me, ...players, ...coaches]) {
+      _peopleById[p.id] = p;
+    }
 
-  static List<SkillTest> get skillTests => [
-        SkillTest(
-          title: 'NTRP Rating Assessment',
-          description: 'A certified rally + match-play evaluation to set your official skill rating.',
-          level: 'All levels',
-          durationMin: 60,
-          status: TestStatus.scheduled,
-          scheduledWith: coaches[0],
-        ),
-        const SkillTest(
-          title: 'Serve Consistency Test',
-          description: 'Land 20 first serves in the box. Tracks speed, placement and fault rate.',
-          level: 'Intermediate',
-          durationMin: 20,
-          status: TestStatus.passed,
-          score: 84,
-        ),
-        const SkillTest(
-          title: 'Baseline Rally Drill',
-          description: 'Maintain a cross-court rally for 30+ shots without an unforced error.',
-          level: 'Intermediate',
-          durationMin: 25,
-          status: TestStatus.passed,
-          score: 76,
-        ),
-        const SkillTest(
-          title: 'Volley & Net Play',
-          description: 'Reaction volleys and approach-shot footwork assessment.',
-          level: 'Advanced',
-          durationMin: 30,
-          status: TestStatus.available,
-        ),
-        const SkillTest(
-          title: 'Match IQ Quiz',
-          description: 'Situational tactics, scoring rules and shot-selection scenarios.',
-          level: 'All levels',
-          durationMin: 15,
-          status: TestStatus.available,
-        ),
-      ];
+    courts = await _readList('courts', Court.fromJson);
+    openSessions = await _readList('open_sessions', (j) => OpenSession.fromJson(j, playerById));
+    bookings = await _readList('bookings', (j) => Booking.fromJson(j, playerById));
+    chats = await _readList('chats', (j) => Chat.fromJson(j, playerById));
+    skillTests = await _readList('skill_tests', (j) => SkillTest.fromJson(j, playerById));
+    achievements = await _readList('achievements', Achievement.fromJson);
 
-  static const achievements = <Achievement>[
-    Achievement('50 Matches', Icons.emoji_events, Color(0xFFF9A825)),
-    Achievement('Serve Ace', Icons.bolt, Color(0xFF1565C0)),
-    Achievement('Clay Specialist', Icons.terrain, Color(0xFFBF360C)),
-    Achievement('5-Win Streak', Icons.local_fire_department, Color(0xFFD84315)),
-    Achievement('Early Bird', Icons.wb_sunny, Color(0xFFF9A825)),
-  ];
+    _loaded = true;
+  }
+
+  /// Look up a person (player or coach) by id. Throws if the id is unknown,
+  /// which surfaces bad references early during development.
+  static Player playerById(String id) {
+    final player = personByIdOrNull(id);
+    if (player == null) {
+      throw StateError('No player found for id "$id". Did you call MockData.load()?');
+    }
+    return player;
+  }
+
+  /// Look up a person (player or coach) by id, or `null` if none matches.
+  /// Used where a missing id is an expected case (e.g. a deep link to a
+  /// profile whose id no longer exists).
+  static Player? personByIdOrNull(String id) => _peopleById[id];
+
+  /// Look up a [Chat] by id, or `null` if none matches.
+  static Chat? chatById(String id) {
+    for (final c in chats) {
+      if (c.id == id) return c;
+    }
+    return null;
+  }
+
+  static Future<Map<String, dynamic>> _readObject(String name) async {
+    final raw = await rootBundle.loadString('$_dir/$name.json');
+    return jsonDecode(raw) as Map<String, dynamic>;
+  }
+
+  static Future<List<T>> _readList<T>(String name, T Function(Map<String, dynamic>) fromJson) async {
+    final raw = await rootBundle.loadString('$_dir/$name.json');
+    final list = jsonDecode(raw) as List;
+    return [for (final item in list) fromJson(item as Map<String, dynamic>)];
+  }
 }

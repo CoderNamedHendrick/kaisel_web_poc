@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "doubles",
+    "hostId": "p1",
+    "court": "McCarren Park Courts",
+    "when": "Today · 6:30 PM",
+    "spotsLeft": 1,
+    "skillRange": "NTRP 4.0–4.5"
+  },
+  {
+    "kind": "match",
+    "hostId": "p4",
+    "court": "Prospect Park Tennis Center",
+    "when": "Tomorrow · 7:00 AM",
+    "spotsLeft": 1,
+    "skillRange": "NTRP 4.5+"
+  },
+  {
+    "kind": "match",
+    "hostId": "p5",
+    "court": "Brooklyn Bridge Indoor",
+    "when": "Sat · 10:00 AM",
+    "spotsLeft": 1,
+    "skillRange": "NTRP 3.0–3.5"
+  }
+]

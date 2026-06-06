@@ -1,0 +1,23 @@
+[
+  {
+    "id": "c1",
+    "name": "Coach Lena Park",
+    "ntrp": 6.5,
+    "location": "Prospect Park Tennis Center",
+    "color": "FFC62828",
+    "isCoach": true,
+    "isOnline": true,
+    "winRate": 91,
+    "bio": "USPTA certified. 12 years coaching juniors and adults."
+  },
+  {
+    "id": "c2",
+    "name": "Coach Marcus Hale",
+    "ntrp": 6.0,
+    "location": "McCarren Courts",
+    "color": "FF283593",
+    "isCoach": true,
+    "winRate": 88,
+    "bio": "Specialises in serve mechanics and footwork."
+  }
+]

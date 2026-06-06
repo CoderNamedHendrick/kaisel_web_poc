@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kaisel_router_poc/core/build_context_extensions.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
 
@@ -9,7 +8,7 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final courts = MockData.courts.take(3).toList();
-    const coaches = MockData.coaches;
+    final coaches = MockData.coaches;
     final players = MockData.players.where((p) => p.winRate != null && p.winRate! > 60).toList();
 
     return Scaffold(

@@ -1,0 +1,62 @@
+[
+  {
+    "kind": "match",
+    "court": "Prospect Park Tennis Center",
+    "location": "Court 6 · Hard",
+    "dateLabel": "Fri, Jun 6",
+    "timeLabel": "6:30 – 8:00 PM",
+    "status": "upcoming",
+    "withPlayerId": "p1",
+    "price": 32
+  },
+  {
+    "kind": "lesson",
+    "court": "Prospect Park Tennis Center",
+    "location": "Court 2 · with Coach Lena",
+    "dateLabel": "Sun, Jun 8",
+    "timeLabel": "9:00 – 10:00 AM",
+    "status": "upcoming",
+    "withPlayerId": "c1",
+    "price": 75
+  },
+  {
+    "kind": "doubles",
+    "court": "McCarren Park Courts",
+    "location": "Court 3 · Hard",
+    "dateLabel": "Wed, Jun 11",
+    "timeLabel": "7:00 – 8:30 PM",
+    "status": "upcoming",
+    "withPlayerId": "p6",
+    "price": 24
+  },
+  {
+    "kind": "match",
+    "court": "Red Hook Clay Club",
+    "location": "Court 1 · Clay",
+    "dateLabel": "Sun, Jun 1",
+    "timeLabel": "8:00 – 9:30 AM",
+    "status": "completed",
+    "withPlayerId": "p3",
+    "price": 45
+  },
+  {
+    "kind": "courtRental",
+    "court": "Brooklyn Bridge Indoor",
+    "location": "Court 4 · Indoor",
+    "dateLabel": "Thu, May 29",
+    "timeLabel": "6:00 – 7:00 PM",
+    "status": "completed",
+    "withPlayerId": "p2",
+    "price": 58
+  },
+  {
+    "kind": "match",
+    "court": "Fort Greene Grass Lawn",
+    "location": "Court 2 · Grass",
+    "dateLabel": "Sat, May 24",
+    "timeLabel": "11:00 AM – 12:30 PM",
+    "status": "cancelled",
+    "withPlayerId": "p4",
+    "price": 40
+  }
+]

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kaisel/kaisel.dart';
+import 'package:kaisel_router_poc/core/build_context_extensions.dart';
+import 'package:kaisel_router_poc/data/mock_data.dart';
 import 'package:kaisel_router_poc/routing/router_codec.dart';
 import '../features/features.dart';
 
@@ -16,6 +18,8 @@ part 'profile_routes.dart';
 part 'favorite_routes.dart';
 
 part 'bookings_routes.dart';
+
+part 'shell_branches.dart';
 
 final class PocAppRouter {
   late final config = KaiselRouterConfig<PocAppRoute>(

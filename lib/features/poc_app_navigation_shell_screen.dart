@@ -3,70 +3,16 @@ import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/build_context_extensions.dart';
 import 'package:kaisel_router_poc/routing/routing.dart';
 
-import 'features.dart';
-
 class PocAppNavigationShellScreen extends StatelessWidget {
   const PocAppNavigationShellScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final isPastMobile = !context.isMobile;
+
+    const shell = ShellBranches();
     return KaiselBranchedShell.specs(
-      branches: [
-        KaiselBranchSpec<HomeRoute>(
-          initial: const HomeRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              HomeRoot() => const HomeScreen(),
-            };
-          },
-        ),
-
-        KaiselBranchSpec<FavoriteRoute>(
-          initial: const FavoritesRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              FavoritesRoot() => Offstage(offstage: !isPastMobile, child: const FavoritesScreen()),
-            };
-          },
-        ),
-
-        KaiselBranchSpec<TestsRoute>(
-          initial: const TestsRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              TestsRoute() => const TestsScreen(),
-            };
-          },
-        ),
-
-        KaiselBranchSpec<MessagesRoute>(
-          initial: const MessagesRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              MessagesRoute() => const MessagesScreen(),
-            };
-          },
-        ),
-
-        KaiselBranchSpec<BookingsRoute>(
-          initial: const BookingsRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              BookingsRoot() => Offstage(offstage: !isPastMobile, child: const BookingsScreen()),
-            };
-          },
-        ),
-
-        KaiselBranchSpec<ProfileRoute>(
-          initial: const ProfileRoot(),
-          builder: (context, route) {
-            return switch (route) {
-              ProfileRoot() => const ProfileScreen(),
-            };
-          },
-        ),
-      ],
+      branches: shell.branches,
 
       branchContentBuilder: isPastMobile
           ? (context, active, children, switchTo) => children[active]

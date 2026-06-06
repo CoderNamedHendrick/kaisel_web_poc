@@ -1,0 +1,56 @@
+[
+  {
+    "id": "p1",
+    "name": "Maya Chen",
+    "ntrp": 4.5,
+    "location": "Williamsburg · 1.2 km",
+    "color": "FF6A1B9A",
+    "isOnline": true,
+    "winRate": 71,
+    "bio": "Lefty with a wicked slice."
+  },
+  {
+    "id": "p2",
+    "name": "Diego Santos",
+    "ntrp": 3.5,
+    "location": "Bushwick · 2.8 km",
+    "color": "FF1565C0",
+    "winRate": 54,
+    "bio": "Just getting back into the game."
+  },
+  {
+    "id": "p3",
+    "name": "Priya Nair",
+    "ntrp": 4.0,
+    "location": "DUMBO · 0.9 km",
+    "color": "FFAD1457",
+    "isOnline": true,
+    "winRate": 65
+  },
+  {
+    "id": "p4",
+    "name": "Tom Becker",
+    "ntrp": 5.0,
+    "location": "Park Slope · 3.4 km",
+    "color": "FFE65100",
+    "winRate": 78,
+    "bio": "Former college player. Hit hard or go home."
+  },
+  {
+    "id": "p5",
+    "name": "Sofia Rossi",
+    "ntrp": 3.0,
+    "location": "Greenpoint · 1.7 km",
+    "color": "FF00838F",
+    "isOnline": true,
+    "winRate": 48
+  },
+  {
+    "id": "p6",
+    "name": "Jamal Wright",
+    "ntrp": 4.5,
+    "location": "Fort Greene · 2.1 km",
+    "color": "FF4527A0",
+    "winRate": 69
+  }
+]

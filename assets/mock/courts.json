@@ -1,0 +1,57 @@
+[
+  {
+    "name": "Prospect Park Tennis Center",
+    "surface": "hard",
+    "location": "Prospect Park · 1.5 km",
+    "pricePerHour": 32,
+    "rating": 4.8,
+    "distanceKm": 1.5,
+    "courts": 11,
+    "lit": true,
+    "gradient": ["FF1B5E20", "FF66BB6A"]
+  },
+  {
+    "name": "McCarren Park Courts",
+    "surface": "hard",
+    "location": "Greenpoint · 1.7 km",
+    "pricePerHour": 24,
+    "rating": 4.5,
+    "distanceKm": 1.7,
+    "courts": 7,
+    "lit": true,
+    "gradient": ["FF0D47A1", "FF42A5F5"]
+  },
+  {
+    "name": "Red Hook Clay Club",
+    "surface": "clay",
+    "location": "Red Hook · 4.2 km",
+    "pricePerHour": 45,
+    "rating": 4.9,
+    "distanceKm": 4.2,
+    "courts": 4,
+    "lit": false,
+    "gradient": ["FFBF360C", "FFFF8A65"]
+  },
+  {
+    "name": "Brooklyn Bridge Indoor",
+    "surface": "indoor",
+    "location": "DUMBO · 0.8 km",
+    "pricePerHour": 58,
+    "rating": 4.7,
+    "distanceKm": 0.8,
+    "courts": 6,
+    "lit": true,
+    "gradient": ["FF4A148C", "FFBA68C8"]
+  },
+  {
+    "name": "Fort Greene Grass Lawn",
+    "surface": "grass",
+    "location": "Fort Greene · 2.0 km",
+    "pricePerHour": 40,
+    "rating": 4.6,
+    "distanceKm": 2.0,
+    "courts": 2,
+    "lit": false,
+    "gradient": ["FF004D40", "FF4DB6AC"]
+  }
+]
