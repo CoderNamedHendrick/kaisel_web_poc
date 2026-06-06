@@ -84,10 +84,10 @@ packages:
     dependency: "direct main"
     description:
       name: kaisel
-      sha256: "43309fb1c575b35e0674835b1973de8ada81981d5a5563a513bb2936571e35f0"
+      sha256: "9e5acaa0b284a731dc07e00daf1554a3ed5acd8ef30351ee54bcce112464b245"
       url: "https://pub.dev"
     source: hosted
-    version: "0.13.1"
+    version: "0.14.0"
   kaisel_core:
     dependency: transitive
     description:

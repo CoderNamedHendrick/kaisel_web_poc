@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/routing/router_codec.dart';
 import '../features/features.dart';
@@ -12,31 +13,22 @@ part 'tests_routes.dart';
 
 part 'profile_routes.dart';
 
-part 'shell_router.dart';
-
 part 'favorite_routes.dart';
 
 part 'bookings_routes.dart';
 
 final class PocAppRouter {
-  late final router = KaiselRouter<PocAppRoute>(initial: const NavigationShellRoute());
-
-  late final routerDelegate = KaiselRouterDelegate(
-    router: router,
-    builder: (context, route) {
+  late final config = KaiselRouterConfig<PocAppRoute>(
+    codec: const PocAppCodec(),
+    initial: const NavigationShellRoute(),
+    builder: (BuildContext context, PocAppRoute route) {
       return switch (route) {
         NavigationShellRoute() => const PocAppNavigationShellScreen(),
       };
     },
   );
 
-  late final routerInfoParser = KaiselRouteInformationParser(
-    codec: const PocAppCodec(),
-    fallback: [const NavigationShellRoute()],
-  );
-
   void dispose() {
-    router.dispose();
-    routerDelegate.dispose();
+    config.dispose();
   }
 }

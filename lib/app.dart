@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/routing/routing.dart';
 
 class KaiselRouterPocApp extends StatefulWidget {
@@ -20,8 +21,10 @@ class _KaiselRouterPocAppState extends State<KaiselRouterPocApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerDelegate: pocRouter.routerDelegate,
-      routeInformationParser: pocRouter.routerInfoParser,
+      title: 'RallyUp',
+      debugShowCheckedModeBanner: false,
+      theme: buildAppTheme(),
+      routerConfig: pocRouter.config,
     );
   }
 }

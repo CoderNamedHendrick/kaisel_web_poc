@@ -1,6 +1,6 @@
 part of 'router.dart';
 
-/// [NotificationsScreen] routes
+/// [MessagesScreen] routes
 final class MessagesRoute extends KaiselRoute {
   const MessagesRoute();
 }

@@ -3,33 +3,76 @@ import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/build_context_extensions.dart';
 import 'package:kaisel_router_poc/routing/routing.dart';
 
-class PocAppNavigationShellScreen extends StatefulWidget {
+import 'features.dart';
+
+class PocAppNavigationShellScreen extends StatelessWidget {
   const PocAppNavigationShellScreen({super.key});
-
-  @override
-  State<PocAppNavigationShellScreen> createState() => _PocAppNavigationShellScreenState();
-}
-
-class _PocAppNavigationShellScreenState extends State<PocAppNavigationShellScreen> {
-  late final _shellRouter = PocShellAppRouter();
-
-  @override
-  void dispose() {
-    _shellRouter.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
     final isPastMobile = !context.isMobile;
-    return KaiselBranchedShell(
-      shell: _shellRouter.router,
-      branches: _shellRouter.branches,
+    return KaiselBranchedShell.specs(
+      branches: [
+        KaiselBranchSpec<HomeRoute>(
+          initial: const HomeRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              HomeRoot() => const HomeScreen(),
+            };
+          },
+        ),
+
+        KaiselBranchSpec<FavoriteRoute>(
+          initial: const FavoritesRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              FavoritesRoot() => const FavoritesScreen(),
+            };
+          },
+        ),
+
+        KaiselBranchSpec<TestsRoute>(
+          initial: const TestsRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              TestsRoute() => const TestsScreen(),
+            };
+          },
+        ),
+
+        KaiselBranchSpec<MessagesRoute>(
+          initial: const MessagesRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              MessagesRoute() => const MessagesScreen(),
+            };
+          },
+        ),
+
+        KaiselBranchSpec<BookingsRoute>(
+          initial: const BookingsRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              BookingsRoot() => const BookingsScreen(),
+            };
+          },
+        ),
+
+        KaiselBranchSpec<ProfileRoute>(
+          initial: const ProfileRoot(),
+          builder: (context, route) {
+            return switch (route) {
+              ProfileRoot() => const ProfileScreen(),
+            };
+          },
+        ),
+      ],
+
       chromeBuilder: (context, active, branchContent, switchBranch) {
         if (!isPastMobile) {
           if (active == 1 || active == 4) {
             WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-              context.branchedShell().switchTo(0);
+              context.shell().switchTo(0);
             });
           }
         }
