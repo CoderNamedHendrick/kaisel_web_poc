@@ -26,7 +26,7 @@ class PocAppNavigationShellScreen extends StatelessWidget {
           initial: const FavoritesRoot(),
           builder: (context, route) {
             return switch (route) {
-              FavoritesRoot() => const FavoritesScreen(),
+              FavoritesRoot() => Offstage(offstage: !isPastMobile, child: const FavoritesScreen()),
             };
           },
         ),
@@ -53,7 +53,7 @@ class PocAppNavigationShellScreen extends StatelessWidget {
           initial: const BookingsRoot(),
           builder: (context, route) {
             return switch (route) {
-              BookingsRoot() => const BookingsScreen(),
+              BookingsRoot() => Offstage(offstage: !isPastMobile, child: const BookingsScreen()),
             };
           },
         ),
@@ -68,6 +68,10 @@ class PocAppNavigationShellScreen extends StatelessWidget {
         ),
       ],
 
+      branchContentBuilder: isPastMobile
+          ? (context, active, children, switchTo) => children[active]
+          : (context, active, children, switchTo) =>
+                _BranchContent(active: active, switchTo: switchTo, children: children),
       chromeBuilder: (context, active, branchContent, switchBranch) {
         if (!isPastMobile) {
           if (active == 1 || active == 4) {
@@ -82,6 +86,7 @@ class PocAppNavigationShellScreen extends StatelessWidget {
             children: [
               if (isPastMobile)
                 Flexible(
+                  flex: 2,
                   child: NavigationRail(
                     backgroundColor: Theme.of(context).colorScheme.secondaryFixedDim,
                     destinations: const [
@@ -97,7 +102,7 @@ class PocAppNavigationShellScreen extends StatelessWidget {
                     extended: true,
                   ),
                 ),
-              Expanded(flex: !isPastMobile ? 1 : 6, child: branchContent),
+              Expanded(flex: !isPastMobile ? 1 : 10, child: branchContent),
             ],
           ),
           bottomNavigationBar: isPastMobile
@@ -129,5 +134,34 @@ class PocAppNavigationShellScreen extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _BranchContent extends StatefulWidget {
+  const _BranchContent({required this.active, required this.children, required this.switchTo});
+
+  final int active;
+  final List<Widget> children;
+  final void Function(int branch) switchTo;
+
+  @override
+  State<_BranchContent> createState() => _BranchContentState();
+}
+
+class _BranchContentState extends State<_BranchContent> {
+  late final _controller = PageController(initialPage: widget.active);
+
+  @override
+  void didUpdateWidget(covariant _BranchContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.active != widget.active) {
+      _controller.animateToPage(widget.active, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return PageView(controller: _controller, physics: const NeverScrollableScrollPhysics(), children: widget.children);
   }
 }

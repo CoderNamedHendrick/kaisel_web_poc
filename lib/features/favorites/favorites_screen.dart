@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel_router_poc/core/build_context_extensions.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
 
@@ -33,6 +34,7 @@ class FavoritesScreen extends StatelessWidget {
 
 class _FavCourtTile extends StatelessWidget {
   const _FavCourtTile(this.court);
+
   final Court court;
 
   @override
@@ -64,21 +66,26 @@ class _FavCourtTile extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(court.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w700)),
+                    Text(
+                      court.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
                     const SizedBox(height: 2),
-                    Text(court.location,
-                        style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13)),
+                    Text(court.location, style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13)),
                     const SizedBox(height: 6),
-                    Row(children: [
-                      Icon(Icons.star, size: 14, color: Colors.amber.shade700),
-                      Text(' ${court.rating}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                      const SizedBox(width: 10),
-                      Text('\$${court.pricePerHour}/hr',
-                          style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w700)),
-                    ]),
+                    Row(
+                      children: [
+                        Icon(Icons.star, size: 14, color: Colors.amber.shade700),
+                        Text(' ${court.rating}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                        const SizedBox(width: 10),
+                        Text(
+                          '\$${court.pricePerHour}/hr',
+                          style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -96,6 +103,7 @@ class _FavCourtTile extends StatelessWidget {
 
 class _FavPersonTile extends StatelessWidget {
   const _FavPersonTile(this.player);
+
   final Player player;
 
   @override
