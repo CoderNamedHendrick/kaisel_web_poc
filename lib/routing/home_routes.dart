@@ -7,6 +7,13 @@ sealed class HomeRoute extends KaiselRoute {
 
 final class HomeRoot extends HomeRoute {
   const HomeRoot();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is HomeRoot && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => runtimeType.hashCode;
 }
 
 /// Another player's profile, opened from the Home tab.
@@ -21,8 +28,13 @@ final class HomeUserProfile extends HomeRoute {
   final Player? player;
 
   @override
-  bool operator ==(Object other) => other is HomeUserProfile && other.userId == userId;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is HomeUserProfile &&
+          runtimeType == other.runtimeType &&
+          userId == other.userId &&
+          player == other.player;
 
   @override
-  int get hashCode => userId.hashCode;
+  int get hashCode => Object.hash(userId, player);
 }
