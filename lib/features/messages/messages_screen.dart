@@ -54,7 +54,7 @@ class _ChatTile extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final hasUnread = chat.unread > 0;
     return ListTile(
-      tileColor: selected ? scheme.onSecondaryContainer : null,
+      tileColor: selected ? scheme.secondaryContainer : null,
       onTap: () => context.router<MessagesRoute>().pushOrReplaceTop(ChatDetail(chat.id)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       leading: PlayerAvatar(player: chat.player, radius: 26),
