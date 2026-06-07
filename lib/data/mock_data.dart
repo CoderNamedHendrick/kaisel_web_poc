@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -125,6 +126,34 @@ class Player {
     if (parts.length == 1) return parts.first.characters.first.toUpperCase();
     return (parts.first.characters.first + parts.last.characters.first).toUpperCase();
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Player &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          name == other.name &&
+          ntrp == other.ntrp &&
+          location == other.location &&
+          color == other.color &&
+          isCoach == other.isCoach &&
+          isOnline == other.isOnline &&
+          winRate == other.winRate &&
+          bio == other.bio;
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        name,
+        ntrp,
+        location,
+        color,
+        isCoach,
+        isOnline,
+        winRate,
+        bio,
+      );
 }
 
 class Court {
@@ -161,6 +190,34 @@ class Court {
   final List<Color> gradient;
   final int courts;
   final bool lit;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Court &&
+          runtimeType == other.runtimeType &&
+          name == other.name &&
+          surface == other.surface &&
+          location == other.location &&
+          pricePerHour == other.pricePerHour &&
+          rating == other.rating &&
+          distanceKm == other.distanceKm &&
+          listEquals(gradient, other.gradient) &&
+          courts == other.courts &&
+          lit == other.lit;
+
+  @override
+  int get hashCode => Object.hash(
+        name,
+        surface,
+        location,
+        pricePerHour,
+        rating,
+        distanceKm,
+        Object.hashAll(gradient),
+        courts,
+        lit,
+      );
 }
 
 class OpenSession {
@@ -188,6 +245,21 @@ class OpenSession {
   final String when;
   final int spotsLeft;
   final String skillRange;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is OpenSession &&
+          runtimeType == other.runtimeType &&
+          kind == other.kind &&
+          host == other.host &&
+          court == other.court &&
+          when == other.when &&
+          spotsLeft == other.spotsLeft &&
+          skillRange == other.skillRange;
+
+  @override
+  int get hashCode => Object.hash(kind, host, court, when, spotsLeft, skillRange);
 }
 
 class Booking {
@@ -221,6 +293,32 @@ class Booking {
   final BookingStatus status;
   final Player withPlayer;
   final int price;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Booking &&
+          runtimeType == other.runtimeType &&
+          kind == other.kind &&
+          court == other.court &&
+          location == other.location &&
+          dateLabel == other.dateLabel &&
+          timeLabel == other.timeLabel &&
+          status == other.status &&
+          withPlayer == other.withPlayer &&
+          price == other.price;
+
+  @override
+  int get hashCode => Object.hash(
+        kind,
+        court,
+        location,
+        dateLabel,
+        timeLabel,
+        status,
+        withPlayer,
+        price,
+      );
 }
 
 /// A single message within a [Chat] conversation.
@@ -236,6 +334,18 @@ class Message {
   final String text;
   final bool fromMe;
   final String time;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Message &&
+          runtimeType == other.runtimeType &&
+          text == other.text &&
+          fromMe == other.fromMe &&
+          time == other.time;
+
+  @override
+  int get hashCode => Object.hash(text, fromMe, time);
 }
 
 class Chat {
@@ -269,6 +379,30 @@ class Chat {
   final int unread;
   final bool sentByMe;
   final List<Message> messages;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Chat &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          player == other.player &&
+          lastMessage == other.lastMessage &&
+          time == other.time &&
+          unread == other.unread &&
+          sentByMe == other.sentByMe &&
+          listEquals(messages, other.messages);
+
+  @override
+  int get hashCode => Object.hash(
+        id,
+        player,
+        lastMessage,
+        time,
+        unread,
+        sentByMe,
+        Object.hashAll(messages),
+      );
 }
 
 class SkillTest {
@@ -302,6 +436,30 @@ class SkillTest {
   final TestStatus status;
   final int? score; // 0 – 100 when passed
   final Player? scheduledWith;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is SkillTest &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          description == other.description &&
+          level == other.level &&
+          durationMin == other.durationMin &&
+          status == other.status &&
+          score == other.score &&
+          scheduledWith == other.scheduledWith;
+
+  @override
+  int get hashCode => Object.hash(
+        title,
+        description,
+        level,
+        durationMin,
+        status,
+        score,
+        scheduledWith,
+      );
 }
 
 class Achievement {
@@ -316,6 +474,18 @@ class Achievement {
   final String label;
   final IconData icon;
   final Color color;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Achievement &&
+          runtimeType == other.runtimeType &&
+          label == other.label &&
+          icon == other.icon &&
+          color == other.color;
+
+  @override
+  int get hashCode => Object.hash(label, icon, color);
 }
 
 /// Resolves a player id to the corresponding [Player]. Used while parsing
