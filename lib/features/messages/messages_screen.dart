@@ -38,7 +38,6 @@ class MessagesScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {}, child: const Icon(Icons.chat_bubble_outline)),
     );
   }
 }

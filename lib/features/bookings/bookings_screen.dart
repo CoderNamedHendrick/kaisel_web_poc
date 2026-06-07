@@ -79,10 +79,7 @@ class _BookingCard extends StatelessWidget {
               children: [
                 Container(
                   padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: scheme.primaryContainer,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
+                  decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(14)),
                   child: Icon(booking.kind.icon, color: scheme.onPrimaryContainer),
                 ),
                 const SizedBox(width: 12),
@@ -90,17 +87,17 @@ class _BookingCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(booking.court,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15)),
-                      Text(booking.location,
-                          style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13)),
+                      Text(
+                        booking.court,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                      ),
+                      Text(booking.location, style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 13)),
                     ],
                   ),
                 ),
-                Pill(booking.status.label,
-                    color: statusColor, bg: statusColor.withValues(alpha: 0.12)),
+                Pill(booking.status.label, color: statusColor, bg: statusColor.withValues(alpha: 0.12)),
               ],
             ),
             const SizedBox(height: 14),
@@ -127,8 +124,10 @@ class _BookingCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                Text('\$${booking.price}',
-                    style: TextStyle(fontWeight: FontWeight.w800, color: scheme.primary)),
+                Text(
+                  '\$${booking.price}',
+                  style: TextStyle(fontWeight: FontWeight.w800, color: scheme.primary),
+                ),
               ],
             ),
             if (isUpcoming) ...[

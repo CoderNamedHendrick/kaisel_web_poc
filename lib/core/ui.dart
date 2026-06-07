@@ -5,10 +5,7 @@ import 'package:kaisel_router_poc/data/mock_data.dart';
 const kSeedColor = Color(0xFF2E7D32);
 
 ThemeData buildAppTheme() {
-  final scheme = ColorScheme.fromSeed(
-    seedColor: kSeedColor,
-    brightness: Brightness.light,
-  );
+  final scheme = ColorScheme.fromSeed(seedColor: kSeedColor, brightness: Brightness.light);
   return ThemeData(
     colorScheme: scheme,
     useMaterial3: true,
@@ -37,11 +34,7 @@ class PlayerAvatar extends StatelessWidget {
       backgroundColor: player.color,
       child: Text(
         player.initials,
-        style: TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w600,
-          fontSize: radius * 0.7,
-        ),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600, fontSize: radius * 0.7),
       ),
     );
     if (!player.isOnline) return avatar;
@@ -81,13 +74,9 @@ class SectionHeader extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              title,
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700),
-            ),
+            child: Text(title, style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w700)),
           ),
-          if (action != null)
-            TextButton(onPressed: onAction ?? () {}, child: Text(action!)),
+          if (action != null) TextButton(onPressed: onAction ?? () {}, child: Text(action!)),
         ],
       ),
     );
@@ -109,10 +98,7 @@ class Pill extends StatelessWidget {
     final fg = color ?? scheme.onSecondaryContainer;
     return Container(
       padding: EdgeInsets.symmetric(horizontal: icon == null ? 10 : 8, vertical: 4),
-      decoration: BoxDecoration(
-        color: bg ?? scheme.secondaryContainer,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: bg ?? scheme.secondaryContainer, borderRadius: BorderRadius.circular(20)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

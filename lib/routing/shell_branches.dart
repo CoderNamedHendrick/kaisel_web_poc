@@ -52,6 +52,12 @@ class ShellBranches {
             ),
           };
         },
+        pageWrapper: (ctx) {
+          return switch (ctx.route) {
+            ChatUserProfile() => AdaptiveModalPage(key: ctx.key, child: ctx.child),
+            _ => MaterialPage(child: ctx.child, key: ctx.key),
+          };
+        },
       ),
 
       KaiselBranchSpec<BookingsRoute>(

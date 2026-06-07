@@ -9,9 +9,7 @@ final class BookingsRoot extends BookingsRoute {
   const BookingsRoot();
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is BookingsRoot && runtimeType == other.runtimeType;
+  bool operator ==(Object other) => identical(this, other) || other is BookingsRoot && runtimeType == other.runtimeType;
 
   @override
   int get hashCode => runtimeType.hashCode;

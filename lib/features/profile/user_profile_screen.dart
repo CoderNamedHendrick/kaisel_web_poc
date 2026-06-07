@@ -10,7 +10,7 @@ import 'package:kaisel_router_poc/data/mock_data.dart';
 /// Pushed onto a branch stack, so the [AppBar] gets an automatic back button.
 class UserProfileScreen extends StatelessWidget {
   const UserProfileScreen({super.key, this.player, this.userId})
-      : assert(player != null || userId != null, 'Provide a player or a userId');
+    : assert(player != null || userId != null, 'Provide a player or a userId');
 
   final Player? player;
   final String? userId;
@@ -34,9 +34,7 @@ class UserProfileScreen extends StatelessWidget {
           SliverAppBar(
             pinned: true,
             title: Text(person.name, style: const TextStyle(fontWeight: FontWeight.w800)),
-            actions: [
-              IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {}),
-            ],
+            actions: [IconButton(icon: const Icon(Icons.more_horiz), onPressed: () {})],
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -45,8 +43,10 @@ class UserProfileScreen extends StatelessWidget {
                 children: [
                   PlayerAvatar(player: person, radius: 44),
                   const SizedBox(height: 12),
-                  Text(person.name,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
+                  Text(
+                    person.name,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                  ),
                   const SizedBox(height: 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -62,17 +62,23 @@ class UserProfileScreen extends StatelessWidget {
                     runSpacing: 8,
                     alignment: WrapAlignment.center,
                     children: [
-                      Pill('NTRP ${person.ntrp}',
-                          icon: Icons.military_tech,
-                          color: scheme.onPrimaryContainer,
-                          bg: scheme.primaryContainer),
+                      Pill(
+                        'NTRP ${person.ntrp}',
+                        icon: Icons.military_tech,
+                        color: scheme.onPrimaryContainer,
+                        bg: scheme.primaryContainer,
+                      ),
                       if (person.isCoach) const Pill('Coach', icon: Icons.school_outlined),
                       if (person.isOnline) const Pill('Online now', icon: Icons.circle, color: Color(0xFF43A047)),
                     ],
                   ),
                   if (person.bio != null) ...[
                     const SizedBox(height: 14),
-                    Text(person.bio!, textAlign: TextAlign.center, style: TextStyle(color: scheme.onSurfaceVariant)),
+                    Text(
+                      person.bio!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: scheme.onSurfaceVariant),
+                    ),
                   ],
                   const SizedBox(height: 16),
                   Row(
@@ -131,11 +137,12 @@ class _PlayerStats extends StatelessWidget {
               for (final (value, label) in stats)
                 Column(
                   children: [
-                    Text(value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(fontWeight: FontWeight.w800, color: scheme.primary)),
+                    Text(
+                      value,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: scheme.primary),
+                    ),
                     const SizedBox(height: 2),
                     Text(label, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
                   ],

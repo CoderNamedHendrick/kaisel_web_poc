@@ -17,13 +17,9 @@ class TestsScreen extends StatelessWidget {
         children: [
           const _RatingBanner(),
           const SizedBox(height: 20),
-          Text('Assessments',
-              style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+          Text('Assessments', style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
           const SizedBox(height: 8),
-          for (final t in tests) ...[
-            _TestCard(t),
-            const SizedBox(height: 12),
-          ],
+          for (final t in tests) ...[_TestCard(t), const SizedBox(height: 12)],
         ],
       ),
     );
@@ -51,15 +47,17 @@ class _RatingBanner extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Your NTRP rating',
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.9))),
+              Text('Your NTRP rating', style: TextStyle(color: Colors.white.withValues(alpha: 0.9))),
               const SizedBox(height: 4),
-              Text('${MockData.me.ntrp}',
-                  style: const TextStyle(
-                      color: Colors.white, fontSize: 44, fontWeight: FontWeight.w900, height: 1.0)),
+              Text(
+                '${MockData.me.ntrp}',
+                style: const TextStyle(color: Colors.white, fontSize: 44, fontWeight: FontWeight.w900, height: 1.0),
+              ),
               const SizedBox(height: 6),
-              Text('Verified · expires in 4 months',
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 12)),
+              Text(
+                'Verified · expires in 4 months',
+                style: TextStyle(color: Colors.white.withValues(alpha: 0.9), fontSize: 12),
+              ),
             ],
           ),
           const Spacer(),
@@ -88,8 +86,7 @@ class _TestCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Text(test.title,
-                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                  child: Text(test.title, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
                 ),
                 _StatusBadge(test),
               ],
@@ -131,8 +128,10 @@ class _TestCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 12),
-            Text('$score / 100',
-                style: TextStyle(fontWeight: FontWeight.w800, color: Colors.green.shade700)),
+            Text(
+              '$score / 100',
+              style: TextStyle(fontWeight: FontWeight.w800, color: Colors.green.shade700),
+            ),
           ],
         );
       case TestStatus.scheduled:

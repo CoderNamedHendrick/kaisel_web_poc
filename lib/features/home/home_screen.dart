@@ -18,10 +18,7 @@ class HomeScreen extends StatelessWidget {
             expandedHeight: 132,
             backgroundColor: scheme.surface,
             actions: [
-              IconButton(
-                icon: const Icon(Icons.tune),
-                onPressed: () {},
-              ),
+              IconButton(icon: const Icon(Icons.tune), onPressed: () {}),
               const SizedBox(width: 4),
             ],
             flexibleSpace: FlexibleSpaceBar(
@@ -67,8 +64,7 @@ class _Greeting extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Good morning,', style: t.bodyMedium?.copyWith(color: Theme.of(context).hintColor)),
-                Text(MockData.me.name.split(' ').first,
-                    style: t.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
+                Text(MockData.me.name.split(' ').first, style: t.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
               ],
             ),
           ),
@@ -89,16 +85,12 @@ class _SearchBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        decoration: BoxDecoration(
-          color: scheme.surfaceContainerHighest,
-          borderRadius: BorderRadius.circular(16),
-        ),
+        decoration: BoxDecoration(color: scheme.surfaceContainerHighest, borderRadius: BorderRadius.circular(16)),
         child: Row(
           children: [
             Icon(Icons.search, color: scheme.onSurfaceVariant),
             const SizedBox(width: 12),
-            Text('Search courts, players, coaches…',
-                style: TextStyle(color: scheme.onSurfaceVariant)),
+            Text('Search courts, players, coaches…', style: TextStyle(color: scheme.onSurfaceVariant)),
           ],
         ),
       ),
@@ -144,19 +136,17 @@ class _StatCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
-      decoration: BoxDecoration(
-        color: scheme.primaryContainer,
-        borderRadius: BorderRadius.circular(18),
-      ),
+      decoration: BoxDecoration(color: scheme.primaryContainer, borderRadius: BorderRadius.circular(18)),
       child: Column(
         children: [
           Icon(icon, color: scheme.onPrimaryContainer, size: 22),
           const SizedBox(height: 8),
-          Text(value,
-              style: Theme.of(context)
-                  .textTheme
-                  .titleLarge
-                  ?.copyWith(fontWeight: FontWeight.w800, color: scheme.onPrimaryContainer)),
+          Text(
+            value,
+            style: Theme.of(
+              context,
+            ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: scheme.onPrimaryContainer),
+          ),
           Text(label, style: TextStyle(fontSize: 12, color: scheme.onPrimaryContainer)),
         ],
       ),
@@ -208,30 +198,35 @@ class _SessionCard extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Expanded(
-                child: Text(session.kind.label,
-                    style: const TextStyle(fontWeight: FontWeight.w700)),
+                child: Text(session.kind.label, style: const TextStyle(fontWeight: FontWeight.w700)),
               ),
             ],
           ),
           const SizedBox(height: 10),
-          Row(children: [
-            Icon(Icons.place_outlined, size: 15, color: scheme.onSurfaceVariant),
-            const SizedBox(width: 4),
-            Expanded(child: Text(session.court, maxLines: 1, overflow: TextOverflow.ellipsis)),
-          ]),
+          Row(
+            children: [
+              Icon(Icons.place_outlined, size: 15, color: scheme.onSurfaceVariant),
+              const SizedBox(width: 4),
+              Expanded(child: Text(session.court, maxLines: 1, overflow: TextOverflow.ellipsis)),
+            ],
+          ),
           const SizedBox(height: 4),
-          Row(children: [
-            Icon(Icons.schedule, size: 15, color: scheme.onSurfaceVariant),
-            const SizedBox(width: 4),
-            Text(session.when),
-          ]),
+          Row(
+            children: [
+              Icon(Icons.schedule, size: 15, color: scheme.onSurfaceVariant),
+              const SizedBox(width: 4),
+              Text(session.when),
+            ],
+          ),
           const Spacer(),
           Row(
             children: [
               Pill(session.skillRange),
               const Spacer(),
-              Text('${session.spotsLeft} spot left',
-                  style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w700, fontSize: 12)),
+              Text(
+                '${session.spotsLeft} spot left',
+                style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w700, fontSize: 12),
+              ),
             ],
           ),
         ],
@@ -274,11 +269,7 @@ class _CourtCard extends StatelessWidget {
             Container(
               height: 96,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: court.gradient,
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                gradient: LinearGradient(colors: court.gradient, begin: Alignment.topLeft, end: Alignment.bottomRight),
               ),
               child: Stack(
                 children: [
@@ -290,10 +281,12 @@ class _CourtCard extends StatelessWidget {
                   Positioned(
                     left: 10,
                     top: 10,
-                    child: Pill(court.surface.label,
-                        icon: court.surface.icon,
-                        color: Colors.white,
-                        bg: Colors.black.withValues(alpha: 0.25)),
+                    child: Pill(
+                      court.surface.label,
+                      icon: court.surface.icon,
+                      color: Colors.white,
+                      bg: Colors.black.withValues(alpha: 0.25),
+                    ),
                   ),
                 ],
               ),
@@ -303,25 +296,35 @@ class _CourtCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(court.name,
-                      maxLines: 1, overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontWeight: FontWeight.w700)),
+                  Text(
+                    court.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  ),
                   const SizedBox(height: 4),
-                  Row(children: [
-                    Icon(Icons.star, size: 14, color: Colors.amber.shade700),
-                    const SizedBox(width: 2),
-                    Text('${court.rating}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                    const SizedBox(width: 8),
-                    Icon(Icons.place_outlined, size: 13, color: scheme.onSurfaceVariant),
-                    Expanded(
-                      child: Text(' ${court.distanceKm} km',
-                          maxLines: 1, overflow: TextOverflow.ellipsis,
-                          style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12)),
-                    ),
-                  ]),
+                  Row(
+                    children: [
+                      Icon(Icons.star, size: 14, color: Colors.amber.shade700),
+                      const SizedBox(width: 2),
+                      Text('${court.rating}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                      const SizedBox(width: 8),
+                      Icon(Icons.place_outlined, size: 13, color: scheme.onSurfaceVariant),
+                      Expanded(
+                        child: Text(
+                          ' ${court.distanceKm} km',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(color: scheme.onSurfaceVariant, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 6),
-                  Text('\$${court.pricePerHour}/hr',
-                      style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w800)),
+                  Text(
+                    '\$${court.pricePerHour}/hr',
+                    style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w800),
+                  ),
                 ],
               ),
             ),
@@ -336,10 +339,7 @@ class _PlayersSliver extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final players = MockData.players;
-    return SliverList.builder(
-      itemCount: players.length,
-      itemBuilder: (context, i) => _PlayerTile(players[i]),
-    );
+    return SliverList.builder(itemCount: players.length, itemBuilder: (context, i) => _PlayerTile(players[i]));
   }
 }
 
@@ -358,10 +358,7 @@ class _PlayerTile extends StatelessWidget {
       title: Text(player.name, style: const TextStyle(fontWeight: FontWeight.w600)),
       subtitle: Text('NTRP ${player.ntrp} · ${player.location}'),
       trailing: FilledButton.tonal(
-        style: FilledButton.styleFrom(
-          visualDensity: VisualDensity.compact,
-          backgroundColor: scheme.primaryContainer,
-        ),
+        style: FilledButton.styleFrom(visualDensity: VisualDensity.compact, backgroundColor: scheme.primaryContainer),
         onPressed: () {},
         child: const Text('Invite'),
       ),

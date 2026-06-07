@@ -30,6 +30,8 @@ class ChatDetailScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0,
+        leading: IconButton(onPressed: context.pop, icon: const Icon(Icons.arrow_back)),
+        automaticallyImplyLeading: false,
         title: InkWell(
           // Open the profile by id only — exercises the fetch-by-id path of
           // UserProfileScreen rather than passing the model through.
@@ -43,10 +45,12 @@ class ChatDetailScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(player.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
+                    Text(
+                      player.name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+                    ),
                     Text(
                       player.isOnline ? 'Online' : 'NTRP ${player.ntrp}',
                       style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant),
@@ -107,10 +111,7 @@ class _MessageBubble extends StatelessWidget {
           children: [
             Text(message.text, style: TextStyle(color: fg)),
             const SizedBox(height: 2),
-            Text(
-              message.time,
-              style: TextStyle(fontSize: 10, color: fg.withValues(alpha: 0.7)),
-            ),
+            Text(message.time, style: TextStyle(fontSize: 10, color: fg.withValues(alpha: 0.7))),
           ],
         ),
       ),
@@ -141,11 +142,7 @@ class _Composer extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            FloatingActionButton.small(
-              onPressed: () {},
-              elevation: 0,
-              child: const Icon(Icons.send),
-            ),
+            FloatingActionButton.small(onPressed: () {}, elevation: 0, child: const Icon(Icons.send)),
           ],
         ),
       ),

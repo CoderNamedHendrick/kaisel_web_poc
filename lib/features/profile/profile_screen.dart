@@ -15,9 +15,7 @@ class ProfileScreen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            actions: [
-              IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () {}),
-            ],
+            actions: [IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () {})],
             title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.w800)),
           ),
           SliverToBoxAdapter(
@@ -27,8 +25,10 @@ class ProfileScreen extends StatelessWidget {
                 children: [
                   PlayerAvatar(player: me, radius: 44),
                   const SizedBox(height: 12),
-                  Text(me.name,
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
+                  Text(
+                    me.name,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                  ),
                   const SizedBox(height: 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -42,16 +42,23 @@ class ProfileScreen extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     children: [
-                      Pill('NTRP ${me.ntrp}', icon: Icons.military_tech, color: scheme.onPrimaryContainer, bg: scheme.primaryContainer),
+                      Pill(
+                        'NTRP ${me.ntrp}',
+                        icon: Icons.military_tech,
+                        color: scheme.onPrimaryContainer,
+                        bg: scheme.primaryContainer,
+                      ),
                       const Pill('Aggressive baseliner', icon: Icons.sports_tennis),
                       const Pill('Righty', icon: Icons.back_hand),
                     ],
                   ),
                   if (me.bio != null) ...[
                     const SizedBox(height: 14),
-                    Text(me.bio!,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(color: scheme.onSurfaceVariant)),
+                    Text(
+                      me.bio!,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: scheme.onSurfaceVariant),
+                    ),
                   ],
                   const SizedBox(height: 16),
                   Row(
@@ -95,12 +102,7 @@ class _StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    const stats = [
-      ('52', 'Matches'),
-      ('32', 'Wins'),
-      ('62%', 'Win rate'),
-      ('5', 'Streak'),
-    ];
+    const stats = [('52', 'Matches'), ('32', 'Wins'), ('62%', 'Win rate'), ('5', 'Streak')];
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       child: Card(
@@ -113,11 +115,12 @@ class _StatsCard extends StatelessWidget {
               for (final (value, label) in stats)
                 Column(
                   children: [
-                    Text(value,
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge
-                            ?.copyWith(fontWeight: FontWeight.w800, color: scheme.primary)),
+                    Text(
+                      value,
+                      style: Theme.of(
+                        context,
+                      ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w800, color: scheme.primary),
+                    ),
                     const SizedBox(height: 2),
                     Text(label, style: TextStyle(fontSize: 12, color: scheme.onSurfaceVariant)),
                   ],
@@ -148,10 +151,7 @@ class _Achievements extends StatelessWidget {
           return Container(
             width: 88,
             padding: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              color: a.color.withValues(alpha: 0.10),
-              borderRadius: BorderRadius.circular(18),
-            ),
+            decoration: BoxDecoration(color: a.color.withValues(alpha: 0.10), borderRadius: BorderRadius.circular(18)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -161,10 +161,12 @@ class _Achievements extends StatelessWidget {
                   child: Icon(a.icon, color: a.color),
                 ),
                 const SizedBox(height: 8),
-                Text(a.label,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
+                Text(
+                  a.label,
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+                ),
               ],
             ),
           );
@@ -192,14 +194,12 @@ class _SettingsList extends StatelessWidget {
         for (final (icon, title, subtitle) in items)
           ListTile(
             leading: Icon(icon, color: title == 'Log out' ? scheme.error : scheme.onSurfaceVariant),
-            title: Text(title,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    color: title == 'Log out' ? scheme.error : null)),
+            title: Text(
+              title,
+              style: TextStyle(fontWeight: FontWeight.w600, color: title == 'Log out' ? scheme.error : null),
+            ),
             subtitle: subtitle == null ? null : Text(subtitle),
-            trailing: title == 'Log out'
-                ? null
-                : Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
+            trailing: title == 'Log out' ? null : Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
             onTap: () {},
           ),
       ],

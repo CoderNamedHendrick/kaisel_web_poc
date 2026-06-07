@@ -16,7 +16,10 @@ class PocAppCodec implements KaiselConfigCodec<PocAppRoute> {
         mainStack: const [NavigationShellRoute()],
         nestedState: KaiselShellConfig(
           activeBranch: 0,
-          activeBranchStack: [const HomeRoot(), HomeUserProfile(userId: userId)],
+          activeBranchStack: [
+            const HomeRoot(),
+            HomeUserProfile(userId: userId),
+          ],
         ),
       ),
       ['favorites'] => KaiselConfig(
@@ -33,16 +36,16 @@ class PocAppCodec implements KaiselConfigCodec<PocAppRoute> {
       ),
       ['messages', 'chat', final chatId] => KaiselConfig(
         mainStack: const [NavigationShellRoute()],
-        nestedState: KaiselShellConfig(
-          activeBranch: 3,
-          activeBranchStack: [const MessagesRoot(), ChatDetail(chatId)],
-        ),
+        nestedState: KaiselShellConfig(activeBranch: 3, activeBranchStack: [const MessagesRoot(), ChatDetail(chatId)]),
       ),
       ['messages', 'user', final userId] => KaiselConfig(
         mainStack: const [NavigationShellRoute()],
         nestedState: KaiselShellConfig(
           activeBranch: 3,
-          activeBranchStack: [const MessagesRoot(), ChatUserProfile(userId: userId)],
+          activeBranchStack: [
+            const MessagesRoot(),
+            ChatUserProfile(userId: userId),
+          ],
         ),
       ),
       ['bookings'] => KaiselConfig(

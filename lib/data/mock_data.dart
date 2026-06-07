@@ -35,52 +35,52 @@ enum CourtSurface { hard, clay, grass, indoor }
 
 extension CourtSurfaceX on CourtSurface {
   String get label => switch (this) {
-        CourtSurface.hard => 'Hard',
-        CourtSurface.clay => 'Clay',
-        CourtSurface.grass => 'Grass',
-        CourtSurface.indoor => 'Indoor',
-      };
+    CourtSurface.hard => 'Hard',
+    CourtSurface.clay => 'Clay',
+    CourtSurface.grass => 'Grass',
+    CourtSurface.indoor => 'Indoor',
+  };
 
   IconData get icon => switch (this) {
-        CourtSurface.hard => Icons.grid_4x4,
-        CourtSurface.clay => Icons.terrain,
-        CourtSurface.grass => Icons.grass,
-        CourtSurface.indoor => Icons.home_work_outlined,
-      };
+    CourtSurface.hard => Icons.grid_4x4,
+    CourtSurface.clay => Icons.terrain,
+    CourtSurface.grass => Icons.grass,
+    CourtSurface.indoor => Icons.home_work_outlined,
+  };
 }
 
 enum BookingStatus { upcoming, completed, cancelled }
 
 extension BookingStatusX on BookingStatus {
   String get label => switch (this) {
-        BookingStatus.upcoming => 'Upcoming',
-        BookingStatus.completed => 'Completed',
-        BookingStatus.cancelled => 'Cancelled',
-      };
+    BookingStatus.upcoming => 'Upcoming',
+    BookingStatus.completed => 'Completed',
+    BookingStatus.cancelled => 'Cancelled',
+  };
 
   Color color(ColorScheme s) => switch (this) {
-        BookingStatus.upcoming => s.primary,
-        BookingStatus.completed => Colors.green.shade600,
-        BookingStatus.cancelled => s.error,
-      };
+    BookingStatus.upcoming => s.primary,
+    BookingStatus.completed => Colors.green.shade600,
+    BookingStatus.cancelled => s.error,
+  };
 }
 
 enum SessionKind { match, lesson, courtRental, doubles }
 
 extension SessionKindX on SessionKind {
   String get label => switch (this) {
-        SessionKind.match => 'Singles match',
-        SessionKind.lesson => 'Coaching lesson',
-        SessionKind.courtRental => 'Court rental',
-        SessionKind.doubles => 'Doubles match',
-      };
+    SessionKind.match => 'Singles match',
+    SessionKind.lesson => 'Coaching lesson',
+    SessionKind.courtRental => 'Court rental',
+    SessionKind.doubles => 'Doubles match',
+  };
 
   IconData get icon => switch (this) {
-        SessionKind.match => Icons.sports_tennis,
-        SessionKind.lesson => Icons.school_outlined,
-        SessionKind.courtRental => Icons.stadium_outlined,
-        SessionKind.doubles => Icons.groups_outlined,
-      };
+    SessionKind.match => Icons.sports_tennis,
+    SessionKind.lesson => Icons.school_outlined,
+    SessionKind.courtRental => Icons.stadium_outlined,
+    SessionKind.doubles => Icons.groups_outlined,
+  };
 }
 
 enum TestStatus { available, scheduled, passed }
@@ -100,16 +100,16 @@ class Player {
   });
 
   factory Player.fromJson(Map<String, dynamic> json) => Player(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        ntrp: (json['ntrp'] as num).toDouble(),
-        location: json['location'] as String,
-        color: _hexColor(json['color'] as String),
-        isCoach: json['isCoach'] as bool? ?? false,
-        isOnline: json['isOnline'] as bool? ?? false,
-        winRate: json['winRate'] as int?,
-        bio: json['bio'] as String?,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    ntrp: (json['ntrp'] as num).toDouble(),
+    location: json['location'] as String,
+    color: _hexColor(json['color'] as String),
+    isCoach: json['isCoach'] as bool? ?? false,
+    isOnline: json['isOnline'] as bool? ?? false,
+    winRate: json['winRate'] as int?,
+    bio: json['bio'] as String?,
+  );
 
   final String id;
   final String name;
@@ -143,17 +143,7 @@ class Player {
           bio == other.bio;
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        name,
-        ntrp,
-        location,
-        color,
-        isCoach,
-        isOnline,
-        winRate,
-        bio,
-      );
+  int get hashCode => Object.hash(id, name, ntrp, location, color, isCoach, isOnline, winRate, bio);
 }
 
 class Court {
@@ -170,16 +160,16 @@ class Court {
   });
 
   factory Court.fromJson(Map<String, dynamic> json) => Court(
-        name: json['name'] as String,
-        surface: CourtSurface.values.byName(json['surface'] as String),
-        location: json['location'] as String,
-        pricePerHour: json['pricePerHour'] as int,
-        rating: (json['rating'] as num).toDouble(),
-        distanceKm: (json['distanceKm'] as num).toDouble(),
-        gradient: [for (final c in json['gradient'] as List) _hexColor(c as String)],
-        courts: json['courts'] as int? ?? 1,
-        lit: json['lit'] as bool? ?? false,
-      );
+    name: json['name'] as String,
+    surface: CourtSurface.values.byName(json['surface'] as String),
+    location: json['location'] as String,
+    pricePerHour: json['pricePerHour'] as int,
+    rating: (json['rating'] as num).toDouble(),
+    distanceKm: (json['distanceKm'] as num).toDouble(),
+    gradient: [for (final c in json['gradient'] as List) _hexColor(c as String)],
+    courts: json['courts'] as int? ?? 1,
+    lit: json['lit'] as bool? ?? false,
+  );
 
   final String name;
   final CourtSurface surface;
@@ -207,17 +197,8 @@ class Court {
           lit == other.lit;
 
   @override
-  int get hashCode => Object.hash(
-        name,
-        surface,
-        location,
-        pricePerHour,
-        rating,
-        distanceKm,
-        Object.hashAll(gradient),
-        courts,
-        lit,
-      );
+  int get hashCode =>
+      Object.hash(name, surface, location, pricePerHour, rating, distanceKm, Object.hashAll(gradient), courts, lit);
 }
 
 class OpenSession {
@@ -231,13 +212,13 @@ class OpenSession {
   });
 
   factory OpenSession.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => OpenSession(
-        kind: SessionKind.values.byName(json['kind'] as String),
-        host: resolve(json['hostId'] as String),
-        court: json['court'] as String,
-        when: json['when'] as String,
-        spotsLeft: json['spotsLeft'] as int,
-        skillRange: json['skillRange'] as String,
-      );
+    kind: SessionKind.values.byName(json['kind'] as String),
+    host: resolve(json['hostId'] as String),
+    court: json['court'] as String,
+    when: json['when'] as String,
+    spotsLeft: json['spotsLeft'] as int,
+    skillRange: json['skillRange'] as String,
+  );
 
   final SessionKind kind;
   final Player host;
@@ -275,15 +256,15 @@ class Booking {
   });
 
   factory Booking.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => Booking(
-        kind: SessionKind.values.byName(json['kind'] as String),
-        court: json['court'] as String,
-        location: json['location'] as String,
-        dateLabel: json['dateLabel'] as String,
-        timeLabel: json['timeLabel'] as String,
-        status: BookingStatus.values.byName(json['status'] as String),
-        withPlayer: resolve(json['withPlayerId'] as String),
-        price: json['price'] as int,
-      );
+    kind: SessionKind.values.byName(json['kind'] as String),
+    court: json['court'] as String,
+    location: json['location'] as String,
+    dateLabel: json['dateLabel'] as String,
+    timeLabel: json['timeLabel'] as String,
+    status: BookingStatus.values.byName(json['status'] as String),
+    withPlayer: resolve(json['withPlayerId'] as String),
+    price: json['price'] as int,
+  );
 
   final SessionKind kind;
   final String court;
@@ -309,27 +290,15 @@ class Booking {
           price == other.price;
 
   @override
-  int get hashCode => Object.hash(
-        kind,
-        court,
-        location,
-        dateLabel,
-        timeLabel,
-        status,
-        withPlayer,
-        price,
-      );
+  int get hashCode => Object.hash(kind, court, location, dateLabel, timeLabel, status, withPlayer, price);
 }
 
 /// A single message within a [Chat] conversation.
 class Message {
   const Message({required this.text, required this.fromMe, required this.time});
 
-  factory Message.fromJson(Map<String, dynamic> json) => Message(
-        text: json['text'] as String,
-        fromMe: json['fromMe'] as bool,
-        time: json['time'] as String,
-      );
+  factory Message.fromJson(Map<String, dynamic> json) =>
+      Message(text: json['text'] as String, fromMe: json['fromMe'] as bool, time: json['time'] as String);
 
   final String text;
   final bool fromMe;
@@ -360,17 +329,14 @@ class Chat {
   });
 
   factory Chat.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => Chat(
-        id: json['id'] as String,
-        player: resolve(json['playerId'] as String),
-        lastMessage: json['lastMessage'] as String,
-        time: json['time'] as String,
-        unread: json['unread'] as int? ?? 0,
-        sentByMe: json['sentByMe'] as bool? ?? false,
-        messages: [
-          for (final m in (json['messages'] as List? ?? const []))
-            Message.fromJson(m as Map<String, dynamic>),
-        ],
-      );
+    id: json['id'] as String,
+    player: resolve(json['playerId'] as String),
+    lastMessage: json['lastMessage'] as String,
+    time: json['time'] as String,
+    unread: json['unread'] as int? ?? 0,
+    sentByMe: json['sentByMe'] as bool? ?? false,
+    messages: [for (final m in (json['messages'] as List? ?? const [])) Message.fromJson(m as Map<String, dynamic>)],
+  );
 
   final String id;
   final Player player;
@@ -394,15 +360,7 @@ class Chat {
           listEquals(messages, other.messages);
 
   @override
-  int get hashCode => Object.hash(
-        id,
-        player,
-        lastMessage,
-        time,
-        unread,
-        sentByMe,
-        Object.hashAll(messages),
-      );
+  int get hashCode => Object.hash(id, player, lastMessage, time, unread, sentByMe, Object.hashAll(messages));
 }
 
 class SkillTest {
@@ -451,25 +409,17 @@ class SkillTest {
           scheduledWith == other.scheduledWith;
 
   @override
-  int get hashCode => Object.hash(
-        title,
-        description,
-        level,
-        durationMin,
-        status,
-        score,
-        scheduledWith,
-      );
+  int get hashCode => Object.hash(title, description, level, durationMin, status, score, scheduledWith);
 }
 
 class Achievement {
   const Achievement(this.label, this.icon, this.color);
 
   factory Achievement.fromJson(Map<String, dynamic> json) => Achievement(
-        json['label'] as String,
-        _achievementIcons[json['icon'] as String] ?? Icons.emoji_events,
-        _hexColor(json['color'] as String),
-      );
+    json['label'] as String,
+    _achievementIcons[json['icon'] as String] ?? Icons.emoji_events,
+    _hexColor(json['color'] as String),
+  );
 
   final String label;
   final IconData icon;

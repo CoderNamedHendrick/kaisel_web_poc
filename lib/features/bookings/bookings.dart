@@ -1,2 +1,2 @@
-//GENERATED BARREL FILE 
-export 'bookings_screen.dart'; 
+//GENERATED BARREL FILE
+export 'bookings_screen.dart';

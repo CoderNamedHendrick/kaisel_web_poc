@@ -9,9 +9,7 @@ final class ProfileRoot extends ProfileRoute {
   const ProfileRoot();
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProfileRoot && runtimeType == other.runtimeType;
+  bool operator ==(Object other) => identical(this, other) || other is ProfileRoot && runtimeType == other.runtimeType;
 
   @override
   int get hashCode => runtimeType.hashCode;
