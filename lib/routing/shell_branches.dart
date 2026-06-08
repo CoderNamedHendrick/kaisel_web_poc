@@ -11,6 +11,9 @@ class ShellBranches {
           return switch (route) {
             HomeRoot() => const HomeScreen(),
             HomeUserProfile(:final userId, :final player) => UserProfileScreen(userId: userId, player: player),
+            HomeCourtDetail(:final courtId, :final court) => CourtDetailScreen(courtId: courtId, court: court),
+            HomeSessionDetail(:final sessionId, :final session) =>
+              SessionDetailScreen(sessionId: sessionId, session: session),
           };
         },
       ),
@@ -20,6 +23,8 @@ class ShellBranches {
         builder: (context, route) {
           return switch (route) {
             FavoritesRoot() => Offstage(offstage: context.isMobile, child: const FavoritesScreen()),
+            FavoriteCourtDetail(:final courtId, :final court) => CourtDetailScreen(courtId: courtId, court: court),
+            FavoriteUserProfile(:final userId, :final player) => UserProfileScreen(userId: userId, player: player),
           };
         },
       ),
@@ -28,7 +33,8 @@ class ShellBranches {
         initial: const TestsRoot(),
         builder: (context, route) {
           return switch (route) {
-            TestsRoute() => const TestsScreen(),
+            TestsRoot() => const TestsScreen(),
+            TestDetail(:final testId, :final test) => TestDetailScreen(testId: testId, test: test),
           };
         },
       ),
@@ -65,6 +71,8 @@ class ShellBranches {
         builder: (context, route) {
           return switch (route) {
             BookingsRoot() => Offstage(offstage: context.isMobile, child: const BookingsScreen()),
+            BookingDetail(:final bookingId, :final booking) =>
+              BookingDetailScreen(bookingId: bookingId, booking: booking),
           };
         },
       ),
@@ -74,6 +82,8 @@ class ShellBranches {
         builder: (context, route) {
           return switch (route) {
             ProfileRoot() => const ProfileScreen(),
+            ProfileSettings() => const SettingsScreen(),
+            ProfileEdit() => const EditProfileScreen(),
           };
         },
       ),

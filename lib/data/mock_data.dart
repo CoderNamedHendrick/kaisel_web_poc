@@ -148,6 +148,7 @@ class Player {
 
 class Court {
   const Court({
+    required this.id,
     required this.name,
     required this.surface,
     required this.location,
@@ -160,6 +161,7 @@ class Court {
   });
 
   factory Court.fromJson(Map<String, dynamic> json) => Court(
+    id: json['id'] as String,
     name: json['name'] as String,
     surface: CourtSurface.values.byName(json['surface'] as String),
     location: json['location'] as String,
@@ -171,6 +173,7 @@ class Court {
     lit: json['lit'] as bool? ?? false,
   );
 
+  final String id;
   final String name;
   final CourtSurface surface;
   final String location;
@@ -186,6 +189,7 @@ class Court {
       identical(this, other) ||
       other is Court &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           name == other.name &&
           surface == other.surface &&
           location == other.location &&
@@ -198,11 +202,12 @@ class Court {
 
   @override
   int get hashCode =>
-      Object.hash(name, surface, location, pricePerHour, rating, distanceKm, Object.hashAll(gradient), courts, lit);
+      Object.hash(id, name, surface, location, pricePerHour, rating, distanceKm, Object.hashAll(gradient), courts, lit);
 }
 
 class OpenSession {
   const OpenSession({
+    required this.id,
     required this.kind,
     required this.host,
     required this.court,
@@ -212,6 +217,7 @@ class OpenSession {
   });
 
   factory OpenSession.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => OpenSession(
+    id: json['id'] as String,
     kind: SessionKind.values.byName(json['kind'] as String),
     host: resolve(json['hostId'] as String),
     court: json['court'] as String,
@@ -220,6 +226,7 @@ class OpenSession {
     skillRange: json['skillRange'] as String,
   );
 
+  final String id;
   final SessionKind kind;
   final Player host;
   final String court;
@@ -232,6 +239,7 @@ class OpenSession {
       identical(this, other) ||
       other is OpenSession &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           kind == other.kind &&
           host == other.host &&
           court == other.court &&
@@ -240,11 +248,12 @@ class OpenSession {
           skillRange == other.skillRange;
 
   @override
-  int get hashCode => Object.hash(kind, host, court, when, spotsLeft, skillRange);
+  int get hashCode => Object.hash(id, kind, host, court, when, spotsLeft, skillRange);
 }
 
 class Booking {
   const Booking({
+    required this.id,
     required this.kind,
     required this.court,
     required this.location,
@@ -256,6 +265,7 @@ class Booking {
   });
 
   factory Booking.fromJson(Map<String, dynamic> json, PlayerResolver resolve) => Booking(
+    id: json['id'] as String,
     kind: SessionKind.values.byName(json['kind'] as String),
     court: json['court'] as String,
     location: json['location'] as String,
@@ -266,6 +276,7 @@ class Booking {
     price: json['price'] as int,
   );
 
+  final String id;
   final SessionKind kind;
   final String court;
   final String location;
@@ -280,6 +291,7 @@ class Booking {
       identical(this, other) ||
       other is Booking &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           kind == other.kind &&
           court == other.court &&
           location == other.location &&
@@ -290,7 +302,7 @@ class Booking {
           price == other.price;
 
   @override
-  int get hashCode => Object.hash(kind, court, location, dateLabel, timeLabel, status, withPlayer, price);
+  int get hashCode => Object.hash(id, kind, court, location, dateLabel, timeLabel, status, withPlayer, price);
 }
 
 /// A single message within a [Chat] conversation.
@@ -365,6 +377,7 @@ class Chat {
 
 class SkillTest {
   const SkillTest({
+    required this.id,
     required this.title,
     required this.description,
     required this.level,
@@ -377,6 +390,7 @@ class SkillTest {
   factory SkillTest.fromJson(Map<String, dynamic> json, PlayerResolver resolve) {
     final scheduledWithId = json['scheduledWithId'] as String?;
     return SkillTest(
+      id: json['id'] as String,
       title: json['title'] as String,
       description: json['description'] as String,
       level: json['level'] as String,
@@ -387,6 +401,7 @@ class SkillTest {
     );
   }
 
+  final String id;
   final String title;
   final String description;
   final String level;
@@ -400,6 +415,7 @@ class SkillTest {
       identical(this, other) ||
       other is SkillTest &&
           runtimeType == other.runtimeType &&
+          id == other.id &&
           title == other.title &&
           description == other.description &&
           level == other.level &&
@@ -409,7 +425,7 @@ class SkillTest {
           scheduledWith == other.scheduledWith;
 
   @override
-  int get hashCode => Object.hash(title, description, level, durationMin, status, score, scheduledWith);
+  int get hashCode => Object.hash(id, title, description, level, durationMin, status, score, scheduledWith);
 }
 
 class Achievement {
@@ -511,6 +527,47 @@ class MockData {
   static Chat? chatById(String id) {
     for (final c in chats) {
       if (c.id == id) return c;
+    }
+    return null;
+  }
+
+  /// Look up a [Court] by id, or `null` if none matches.
+  static Court? courtById(String id) {
+    for (final c in courts) {
+      if (c.id == id) return c;
+    }
+    return null;
+  }
+
+  /// Look up an [OpenSession] by id, or `null` if none matches.
+  static OpenSession? sessionById(String id) {
+    for (final s in openSessions) {
+      if (s.id == id) return s;
+    }
+    return null;
+  }
+
+  /// Look up a [Booking] by id, or `null` if none matches.
+  static Booking? bookingById(String id) {
+    for (final b in bookings) {
+      if (b.id == id) return b;
+    }
+    return null;
+  }
+
+  /// Look up a [SkillTest] by id, or `null` if none matches.
+  static SkillTest? skillTestById(String id) {
+    for (final t in skillTests) {
+      if (t.id == id) return t;
+    }
+    return null;
+  }
+
+  /// The first conversation with the given player, or `null` if there is none.
+  /// Backs the "Message" action on a player's profile.
+  static Chat? chatForPlayer(String playerId) {
+    for (final c in chats) {
+      if (c.player.id == playerId) return c;
     }
     return null;
   }

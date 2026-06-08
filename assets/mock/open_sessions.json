@@ -1,5 +1,6 @@
 [
   {
+    "id": "sess_1",
     "kind": "doubles",
     "hostId": "p1",
     "court": "McCarren Park Courts",
@@ -8,6 +9,7 @@
     "skillRange": "NTRP 4.0–4.5"
   },
   {
+    "id": "sess_2",
     "kind": "match",
     "hostId": "p4",
     "court": "Prospect Park Tennis Center",
@@ -16,6 +18,7 @@
     "skillRange": "NTRP 4.5+"
   },
   {
+    "id": "sess_3",
     "kind": "match",
     "hostId": "p5",
     "court": "Brooklyn Bridge Indoor",

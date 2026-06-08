@@ -1,5 +1,6 @@
 [
   {
+    "id": "court_1",
     "name": "Prospect Park Tennis Center",
     "surface": "hard",
     "location": "Prospect Park · 1.5 km",
@@ -11,6 +12,7 @@
     "gradient": ["FF1B5E20", "FF66BB6A"]
   },
   {
+    "id": "court_2",
     "name": "McCarren Park Courts",
     "surface": "hard",
     "location": "Greenpoint · 1.7 km",
@@ -22,6 +24,7 @@
     "gradient": ["FF0D47A1", "FF42A5F5"]
   },
   {
+    "id": "court_3",
     "name": "Red Hook Clay Club",
     "surface": "clay",
     "location": "Red Hook · 4.2 km",
@@ -33,6 +36,7 @@
     "gradient": ["FFBF360C", "FFFF8A65"]
   },
   {
+    "id": "court_4",
     "name": "Brooklyn Bridge Indoor",
     "surface": "indoor",
     "location": "DUMBO · 0.8 km",
@@ -44,6 +48,7 @@
     "gradient": ["FF4A148C", "FFBA68C8"]
   },
   {
+    "id": "court_5",
     "name": "Fort Greene Grass Lawn",
     "surface": "grass",
     "location": "Fort Greene · 2.0 km",

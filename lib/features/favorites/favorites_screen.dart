@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({super.key});
@@ -43,7 +45,9 @@ class _FavCourtTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
       child: Card(
         color: scheme.surfaceContainerHigh,
-        child: Padding(
+        child: InkWell(
+          onTap: () => context.push(FavoriteCourtDetail(courtId: court.id, court: court)),
+          child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
             children: [
@@ -95,6 +99,7 @@ class _FavCourtTile extends StatelessWidget {
             ],
           ),
         ),
+        ),
       ),
     );
   }
@@ -109,6 +114,7 @@ class _FavPersonTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     return ListTile(
+      onTap: () => context.push(FavoriteUserProfile(userId: player.id, player: player)),
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       leading: PlayerAvatar(player: player),
       title: Text(player.name, style: const TextStyle(fontWeight: FontWeight.w600)),

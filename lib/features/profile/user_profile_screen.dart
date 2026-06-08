@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 /// Read-only profile of another player on the platform.
 ///
@@ -14,6 +16,25 @@ class UserProfileScreen extends StatelessWidget {
 
   final Player? player;
   final String? userId;
+
+  /// Cross-branch navigation: switch to the Messages tab and open the
+  /// conversation with [person]. This profile can be shown from any branch, so
+  /// the Messages branch's own `RouterScope` isn't an ancestor here — instead
+  /// drive the shell directly. `switchTo` updates `current` synchronously, then
+  /// `restoreStack` sets that branch's stack (the same path the URL delegate
+  /// uses to restore deep links).
+  void _openChat(BuildContext context, Player person) {
+    final chat = MockData.chatForPlayer(person.id);
+    if (chat == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No conversation with ${person.name} yet')),
+      );
+      return;
+    }
+    final shell = context.shell();
+    shell.switchTo(3);
+    shell.current.restoreStack([const MessagesRoot(), ChatDetail(chat.id)]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +106,7 @@ class UserProfileScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => _openChat(context, person),
                           icon: const Icon(Icons.chat_bubble_outline, size: 18),
                           label: const Text('Message'),
                         ),
@@ -93,7 +114,9 @@ class UserProfileScreen extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: FilledButton.icon(
-                          onPressed: () {},
+                          onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Invited ${person.name} to play — coming soon')),
+                          ),
                           icon: const Icon(Icons.sports_tennis, size: 18),
                           label: const Text('Invite to play'),
                         ),

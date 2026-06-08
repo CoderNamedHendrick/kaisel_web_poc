@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,7 +17,12 @@ class ProfileScreen extends StatelessWidget {
         slivers: [
           SliverAppBar(
             pinned: true,
-            actions: [IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () {})],
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.settings_outlined),
+                onPressed: () => context.push(const ProfileSettings()),
+              ),
+            ],
             title: const Text('Profile', style: TextStyle(fontWeight: FontWeight.w800)),
           ),
           SliverToBoxAdapter(
@@ -65,7 +72,7 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: () => context.push(const ProfileEdit()),
                           icon: const Icon(Icons.edit_outlined, size: 18),
                           label: const Text('Edit profile'),
                         ),
@@ -87,8 +94,16 @@ class ProfileScreen extends StatelessWidget {
           const SliverToBoxAdapter(child: _StatsCard()),
           const SliverToBoxAdapter(child: SectionHeader('Achievements')),
           const SliverToBoxAdapter(child: _Achievements()),
-          const SliverToBoxAdapter(child: SectionHeader('Account')),
-          const SliverToBoxAdapter(child: _SettingsList()),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: OutlinedButton.icon(
+                onPressed: () => context.push(const ProfileSettings()),
+                icon: const Icon(Icons.settings_outlined, size: 18),
+                label: const Text('Account settings'),
+              ),
+            ),
+          ),
           const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
@@ -176,33 +191,3 @@ class _Achievements extends StatelessWidget {
   }
 }
 
-class _SettingsList extends StatelessWidget {
-  const _SettingsList();
-
-  @override
-  Widget build(BuildContext context) {
-    const items = [
-      (Icons.credit_card, 'Payment methods', 'Visa •••• 4242'),
-      (Icons.notifications_outlined, 'Notifications', 'Match invites, reminders'),
-      (Icons.shield_outlined, 'Privacy & safety', null),
-      (Icons.help_outline, 'Help & support', null),
-      (Icons.logout, 'Log out', null),
-    ];
-    final scheme = Theme.of(context).colorScheme;
-    return Column(
-      children: [
-        for (final (icon, title, subtitle) in items)
-          ListTile(
-            leading: Icon(icon, color: title == 'Log out' ? scheme.error : scheme.onSurfaceVariant),
-            title: Text(
-              title,
-              style: TextStyle(fontWeight: FontWeight.w600, color: title == 'Log out' ? scheme.error : null),
-            ),
-            subtitle: subtitle == null ? null : Text(subtitle),
-            trailing: title == 'Log out' ? null : Icon(Icons.chevron_right, color: scheme.onSurfaceVariant),
-            onTap: () {},
-          ),
-      ],
-    );
-  }
-}

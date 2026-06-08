@@ -1,5 +1,6 @@
 //GENERATED BARREL FILE
 export './bookings/bookings.dart';
+export './courts/courts.dart';
 export './favorites/favorites.dart';
 export './home/home.dart';
 export './messages/messages.dart';

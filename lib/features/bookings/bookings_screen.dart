@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 class BookingsScreen extends StatelessWidget {
   const BookingsScreen({super.key});
@@ -70,7 +72,9 @@ class _BookingCard extends StatelessWidget {
 
     return Card(
       color: scheme.surfaceContainerHigh,
-      child: Padding(
+      child: InkWell(
+        onTap: () => context.push(BookingDetail(bookingId: booking.id, booking: booking)),
+        child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -150,6 +154,7 @@ class _BookingCard extends StatelessWidget {
             ],
           ],
         ),
+      ),
       ),
     );
   }

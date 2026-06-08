@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:kaisel/kaisel.dart';
 import 'package:kaisel_router_poc/core/ui.dart';
 import 'package:kaisel_router_poc/data/mock_data.dart';
+import 'package:kaisel_router_poc/routing/routing.dart';
 
 class TestsScreen extends StatelessWidget {
   const TestsScreen({super.key});
@@ -77,7 +79,9 @@ class _TestCard extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     return Card(
       color: scheme.surfaceContainerHigh,
-      child: Padding(
+      child: InkWell(
+        onTap: () => context.push(TestDetail(testId: test.id, test: test)),
+        child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,6 +109,7 @@ class _TestCard extends StatelessWidget {
             _action(context),
           ],
         ),
+      ),
       ),
     );
   }
@@ -140,14 +145,17 @@ class _TestCard extends StatelessWidget {
             PlayerAvatar(player: test.scheduledWith!, radius: 14),
             const SizedBox(width: 8),
             Expanded(child: Text('Scheduled with ${test.scheduledWith!.name}')),
-            OutlinedButton(onPressed: () {}, child: const Text('Manage')),
+            OutlinedButton(
+              onPressed: () => context.push(TestDetail(testId: test.id, test: test)),
+              child: const Text('Manage'),
+            ),
           ],
         );
       case TestStatus.available:
         return SizedBox(
           width: double.infinity,
           child: FilledButton.icon(
-            onPressed: () {},
+            onPressed: () => context.push(TestDetail(testId: test.id, test: test)),
             icon: const Icon(Icons.play_arrow),
             label: const Text('Start test'),
           ),
